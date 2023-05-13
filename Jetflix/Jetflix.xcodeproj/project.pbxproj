@@ -22,7 +22,10 @@
 		9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */; };
 		9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */; };
 		9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEE2A0FAAD9008A660E /* APICaller.swift */; };
-		9B811EF22A0FAF47008A660E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EF12A0FAF47008A660E /* Movie.swift */; };
+		9B811EF22A0FAF47008A660E /* TitleDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EF12A0FAF47008A660E /* TitleDTO.swift */; };
+		9B811EFD2A0FBEB9008A660E /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFC2A0FBEB9008A660E /* Title.swift */; };
+		9B811F002A0FC3B4008A660E /* TitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */; };
+		9B811F022A0FC3BF008A660E /* TitleRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F012A0FC3BF008A660E /* TitleRepositoryProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +65,10 @@
 		9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterHeaderUIView.swift; sourceTree = "<group>"; };
 		9B811EEE2A0FAAD9008A660E /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
-		9B811EF12A0FAF47008A660E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		9B811EF12A0FAF47008A660E /* TitleDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDTO.swift; sourceTree = "<group>"; };
+		9B811EFC2A0FBEB9008A660E /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
+		9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRepository.swift; sourceTree = "<group>"; };
+		9B811F012A0FC3BF008A660E /* TitleRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRepositoryProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,8 +122,9 @@
 				9B811EE42A0F6687008A660E /* Application */,
 				9B811EDB2A0F6651008A660E /* Presentation */,
 				9B811EF02A0FAF35008A660E /* Models */,
-				9B811EED2A0FAAC1008A660E /* Managers */,
-				9B811EE62A0F66DD008A660E /* Assets */,
+				9B811EF32A0FBBE5008A660E /* Domain */,
+				9B811EF42A0FBBE7008A660E /* Data */,
+				9B811EE62A0F66DD008A660E /* Resource */,
 			);
 			path = Jetflix;
 			sourceTree = "<group>";
@@ -235,14 +242,14 @@
 			path = MainTabBar;
 			sourceTree = "<group>";
 		};
-		9B811EE62A0F66DD008A660E /* Assets */ = {
+		9B811EE62A0F66DD008A660E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				9B811EA92A0E6B74008A660E /* Assets.xcassets */,
 				9B811EAB2A0E6B74008A660E /* LaunchScreen.storyboard */,
 				9B811EAE2A0E6B74008A660E /* Info.plist */,
 			);
-			path = Assets;
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		9B811EE72A0F6DDD008A660E /* ViewModel */ = {
@@ -260,20 +267,78 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		9B811EED2A0FAAC1008A660E /* Managers */ = {
+		9B811EF02A0FAF35008A660E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9B811EF32A0FBBE5008A660E /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EF62A0FBC0A008A660E /* Entity */,
+				9B811EF72A0FBC1F008A660E /* Interface */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		9B811EF42A0FBBE7008A660E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EF82A0FBC4B008A660E /* Repository */,
+				9B811EF92A0FBC4E008A660E /* Network */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9B811EF62A0FBC0A008A660E /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EFC2A0FBEB9008A660E /* Title.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		9B811EF72A0FBC1F008A660E /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				9B811F012A0FC3BF008A660E /* TitleRepositoryProtocol.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		9B811EF82A0FBC4B008A660E /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		9B811EF92A0FBC4E008A660E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EFE2A0FC0E4008A660E /* Services */,
+				9B811EFB2A0FBC63008A660E /* DTO */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9B811EFB2A0FBC63008A660E /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EF12A0FAF47008A660E /* TitleDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		9B811EFE2A0FC0E4008A660E /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				9B811EEE2A0FAAD9008A660E /* APICaller.swift */,
 			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		9B811EF02A0FAF35008A660E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9B811EF12A0FAF47008A660E /* Movie.swift */,
-			);
-			path = Models;
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,12 +475,15 @@
 				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
+				9B811EFD2A0FBEB9008A660E /* Title.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,
 				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
+				9B811F022A0FC3BF008A660E /* TitleRepositoryProtocol.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
-				9B811EF22A0FAF47008A660E /* Movie.swift in Sources */,
+				9B811F002A0FC3B4008A660E /* TitleRepository.swift in Sources */,
+				9B811EF22A0FAF47008A660E /* TitleDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,7 +655,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WPX8MV29XR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Jetflix/Assets/Info.plist;
+				INFOPLIST_FILE = Jetflix/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -614,7 +682,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WPX8MV29XR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Jetflix/Assets/Info.plist;
+				INFOPLIST_FILE = Jetflix/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

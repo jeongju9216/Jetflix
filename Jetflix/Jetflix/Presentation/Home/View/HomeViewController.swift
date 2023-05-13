@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     let sectionTitles: [String] = ["Trending Movies", "Popular", "Trending TV", "Upcoming Movies", "Top rated"]
+    let repository = TitleRepository()
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -71,13 +72,9 @@ class HomeViewController: UIViewController {
     
     //MARK: - Methods
     private func getTrendingMovies() {
-        APICaller.shared.getTrendingMovies() { results in
-            switch results {
-            case .success(let movies):
-                print(movies)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            let titles = try? await repository.getTrendingTitle()
+            print(titles)
         }
     }
 }
