@@ -36,6 +36,8 @@ class HomeViewController: UIViewController {
         
         let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+        
+        getTrendingMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,7 +46,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.frame = view.bounds
     }
     
-    //MARK: - Methods
+    //MARK: - Setup
     private func configurationNavbar() {
         var image = UIImage(named: "LogoImage")
         //iOS 시스템에서 색상을 변경하는 것을 막고, 항상 이미지 본연의 색상으로 출력하게 함
@@ -65,6 +67,18 @@ class HomeViewController: UIViewController {
         ]
         
         navigationController?.navigationBar.tintColor = .label
+    }
+    
+    //MARK: - Methods
+    private func getTrendingMovies() {
+        APICaller.shared.getTrendingMovies() { results in
+            switch results {
+            case .success(let movies):
+                print(movies)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

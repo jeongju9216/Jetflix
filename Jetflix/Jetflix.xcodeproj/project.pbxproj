@@ -21,6 +21,8 @@
 		9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811ED82A0F581F008A660E /* DownloadsViewController.swift */; };
 		9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */; };
 		9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */; };
+		9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEE2A0FAAD9008A660E /* APICaller.swift */; };
+		9B811EF22A0FAF47008A660E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EF12A0FAF47008A660E /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		9B811ED82A0F581F008A660E /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterHeaderUIView.swift; sourceTree = "<group>"; };
+		9B811EEE2A0FAAD9008A660E /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		9B811EF12A0FAF47008A660E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 			children = (
 				9B811EE42A0F6687008A660E /* Application */,
 				9B811EDB2A0F6651008A660E /* Presentation */,
+				9B811EF02A0FAF35008A660E /* Models */,
+				9B811EED2A0FAAC1008A660E /* Managers */,
 				9B811EE62A0F66DD008A660E /* Assets */,
 			);
 			path = Jetflix;
@@ -254,6 +260,22 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		9B811EED2A0FAAC1008A660E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EEE2A0FAAD9008A660E /* APICaller.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		9B811EF02A0FAF35008A660E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EF12A0FAF47008A660E /* Movie.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -387,11 +409,13 @@
 				9B811ED72A0F5803008A660E /* SearchViewController.swift in Sources */,
 				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
+				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,
 				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
+				9B811EF22A0FAF47008A660E /* Movie.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
