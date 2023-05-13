@@ -9,13 +9,16 @@
 /* Begin PBXBuildFile section */
 		9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EA02A0E6B73008A660E /* AppDelegate.swift */; };
 		9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EA22A0E6B73008A660E /* SceneDelegate.swift */; };
-		9B811EA52A0E6B73008A660E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EA42A0E6B73008A660E /* ViewController.swift */; };
-		9B811EA82A0E6B73008A660E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B811EA62A0E6B73008A660E /* Main.storyboard */; };
+		9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EA42A0E6B73008A660E /* MainTabBarViewController.swift */; };
 		9B811EAA2A0E6B74008A660E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B811EA92A0E6B74008A660E /* Assets.xcassets */; };
 		9B811EAD2A0E6B74008A660E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B811EAB2A0E6B74008A660E /* LaunchScreen.storyboard */; };
 		9B811EB82A0E6B74008A660E /* JetflixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EB72A0E6B74008A660E /* JetflixTests.swift */; };
 		9B811EC22A0E6B74008A660E /* JetflixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EC12A0E6B74008A660E /* JetflixUITests.swift */; };
 		9B811EC42A0E6B74008A660E /* JetflixUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EC32A0E6B74008A660E /* JetflixUITestsLaunchTests.swift */; };
+		9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811ED22A0F57D7008A660E /* HomeViewController.swift */; };
+		9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811ED42A0F57F5008A660E /* UpcomingViewController.swift */; };
+		9B811ED72A0F5803008A660E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811ED62A0F5803008A660E /* SearchViewController.swift */; };
+		9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811ED82A0F581F008A660E /* DownloadsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +42,7 @@
 		9B811E9D2A0E6B73008A660E /* Jetflix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jetflix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B811EA02A0E6B73008A660E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B811EA22A0E6B73008A660E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9B811EA42A0E6B73008A660E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		9B811EA72A0E6B73008A660E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9B811EA42A0E6B73008A660E /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		9B811EA92A0E6B74008A660E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B811EAC2A0E6B74008A660E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B811EAE2A0E6B74008A660E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +51,10 @@
 		9B811EBD2A0E6B74008A660E /* JetflixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JetflixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B811EC12A0E6B74008A660E /* JetflixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetflixUITests.swift; sourceTree = "<group>"; };
 		9B811EC32A0E6B74008A660E /* JetflixUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetflixUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9B811ED22A0F57D7008A660E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		9B811ED42A0F57F5008A660E /* UpcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewController.swift; sourceTree = "<group>"; };
+		9B811ED62A0F5803008A660E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		9B811ED82A0F581F008A660E /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +105,9 @@
 		9B811E9F2A0E6B73008A660E /* Jetflix */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EA02A0E6B73008A660E /* AppDelegate.swift */,
-				9B811EA22A0E6B73008A660E /* SceneDelegate.swift */,
-				9B811EA42A0E6B73008A660E /* ViewController.swift */,
-				9B811EA62A0E6B73008A660E /* Main.storyboard */,
-				9B811EA92A0E6B74008A660E /* Assets.xcassets */,
-				9B811EAB2A0E6B74008A660E /* LaunchScreen.storyboard */,
-				9B811EAE2A0E6B74008A660E /* Info.plist */,
+				9B811EE42A0F6687008A660E /* Application */,
+				9B811EDB2A0F6651008A660E /* Presentation */,
+				9B811EE62A0F66DD008A660E /* Assets */,
 			);
 			path = Jetflix;
 			sourceTree = "<group>";
@@ -125,6 +127,109 @@
 				9B811EC32A0E6B74008A660E /* JetflixUITestsLaunchTests.swift */,
 			);
 			path = JetflixUITests;
+			sourceTree = "<group>";
+		};
+		9B811EDB2A0F6651008A660E /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EE52A0F6695008A660E /* MainTabBar */,
+				9B811EDC2A0F6656008A660E /* Home */,
+				9B811EDE2A0F665B008A660E /* Upcoming */,
+				9B811EDD2A0F6658008A660E /* Search */,
+				9B811EDF2A0F6661008A660E /* Downloads */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		9B811EDC2A0F6656008A660E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EE02A0F6673008A660E /* ViewController */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9B811EDD2A0F6658008A660E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EE22A0F6682008A660E /* ViewController */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		9B811EDE2A0F665B008A660E /* Upcoming */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EE12A0F6681008A660E /* ViewController */,
+			);
+			path = Upcoming;
+			sourceTree = "<group>";
+		};
+		9B811EDF2A0F6661008A660E /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EE32A0F6684008A660E /* ViewController */,
+			);
+			path = Downloads;
+			sourceTree = "<group>";
+		};
+		9B811EE02A0F6673008A660E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9B811ED22A0F57D7008A660E /* HomeViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9B811EE12A0F6681008A660E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9B811ED42A0F57F5008A660E /* UpcomingViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9B811EE22A0F6682008A660E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9B811ED62A0F5803008A660E /* SearchViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9B811EE32A0F6684008A660E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9B811ED82A0F581F008A660E /* DownloadsViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9B811EE42A0F6687008A660E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EA02A0E6B73008A660E /* AppDelegate.swift */,
+				9B811EA22A0E6B73008A660E /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		9B811EE52A0F6695008A660E /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EA42A0E6B73008A660E /* MainTabBarViewController.swift */,
+			);
+			path = MainTabBar;
+			sourceTree = "<group>";
+		};
+		9B811EE62A0F66DD008A660E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9B811EA92A0E6B74008A660E /* Assets.xcassets */,
+				9B811EAB2A0E6B74008A660E /* LaunchScreen.storyboard */,
+				9B811EAE2A0E6B74008A660E /* Info.plist */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +338,6 @@
 			files = (
 				9B811EAD2A0E6B74008A660E /* LaunchScreen.storyboard in Resources */,
 				9B811EAA2A0E6B74008A660E /* Assets.xcassets in Resources */,
-				9B811EA82A0E6B73008A660E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +362,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B811EA52A0E6B73008A660E /* ViewController.swift in Sources */,
+				9B811ED72A0F5803008A660E /* SearchViewController.swift in Sources */,
+				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
+				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
+				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
+				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,14 +405,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		9B811EA62A0E6B73008A660E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9B811EA72A0E6B73008A660E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		9B811EAB2A0E6B74008A660E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -439,10 +539,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WPX8MV29XR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Jetflix/Info.plist;
+				INFOPLIST_FILE = Jetflix/Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -467,10 +566,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WPX8MV29XR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Jetflix/Info.plist;
+				INFOPLIST_FILE = Jetflix/Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
