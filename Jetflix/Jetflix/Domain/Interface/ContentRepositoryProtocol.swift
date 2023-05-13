@@ -7,7 +7,12 @@
 
 import Foundation
 
+//todo: action으로 메서드 공통화
+//todo: Contentable로 반환값 공통화
 protocol ContentRepositoryProtocol {
     func getTrendingMovie() async throws -> [Movie]
     func getTrendingTv() async throws -> [Tv]
+    func getUpcomingMovies() async throws -> [Movie]
+    func getPopularMovies() async throws -> [Movie]
+    func getTopRatedMovies() async throws -> [Movie]
 }

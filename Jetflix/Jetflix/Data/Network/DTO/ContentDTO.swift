@@ -11,11 +11,15 @@ struct TMDBResponse: Decodable {
     let results: [Content]
 }
 
+struct TMDBMovieResponse: Decodable {
+    let results: [MovieDTO]
+}
+
 enum Content {
     case movie(MovieDTO)
     case tv(TvDTO)
     
-    func toEntity() -> Any {
+    func toEntity() -> Contentable {
         switch self {
         case .movie(let movieDTO):
             return movieDTO.toEntity()
@@ -49,17 +53,17 @@ extension Content: Decodable {
 }
 
 struct MovieDTO: Codable {
-    let adult: Bool
-    let backdropPath: String
-    let id: Int
-    let title, originalLanguage, originalTitle, overview: String
-    let posterPath, mediaType: String
-    let genreIDS: [Int]
-    let popularity: Double
-    let releaseDate: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
+    let adult: Bool?
+    let backdropPath: String?
+    let id: Int?
+    let title, originalLanguage, originalTitle, overview: String?
+    let posterPath, mediaType: String?
+    let genreIDS: [Int]?
+    let popularity: Double?
+    let releaseDate: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -79,13 +83,12 @@ struct MovieDTO: Codable {
     }
     
     func toEntity() -> Movie {
-        return .init(adult: adult,
-                     id: id,
-                     title: title,
+        return .init(id: id ?? -1,
+                     adult: adult,
+                     mediaType: mediaType, title: title,
                      originalTitle: originalTitle,
                      overview: overview,
                      posterPath: posterPath,
-                     mediaType: mediaType,
                      popularity: popularity,
                      releaseDate: releaseDate,
                      video: video,
@@ -95,17 +98,17 @@ struct MovieDTO: Codable {
 }
 
 struct TvDTO: Codable {
-    let adult: Bool
-    let backdropPath: String
-    let id: Int
-    let name, originalLanguage, originalName, overview: String
-    let posterPath, mediaType: String
-    let genreIDS: [Int]
-    let popularity: Double
-    let firstAirDate: String
-    let voteAverage: Double
-    let voteCount: Int
-    let originCountry: [String]
+    let adult: Bool?
+    let backdropPath: String?
+    let id: Int?
+    let name, originalLanguage, originalName, overview: String?
+    let posterPath, mediaType: String?
+    let genreIDS: [Int]?
+    let popularity: Double?
+    let firstAirDate: String?
+    let voteAverage: Double?
+    let voteCount: Int?
+    let originCountry: [String]?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -125,13 +128,12 @@ struct TvDTO: Codable {
     }
     
     func toEntity() -> Tv {
-        return .init(adult: adult,
-                     id: id,
-                     name: name,
+        return .init(id: id ?? -1,
+                     adult: adult,
+                     mediaType: mediaType, name: name,
                      originalName: originalName,
                      overview: overview,
                      posterPath: posterPath,
-                     mediaType: mediaType,
                      popularity: popularity,
                      firstAirDate: firstAirDate,
                      voteAverage: voteAverage,

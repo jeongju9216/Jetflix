@@ -38,8 +38,7 @@ class HomeViewController: UIViewController {
         let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
         
-        getTrendingMovies()
-        getTrendingTVs()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,17 +71,16 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - Methods
-    private func getTrendingMovies() {
+    private func fetchData() {
         Task {
-            let titles = try? await repository.getTrendingMovie()
-            print(titles?.first)
-        }
-    }
-    
-    private func getTrendingTVs() {
-        Task {
-            let titles = try? await repository.getTrendingTv()
-            print(titles?.first)
+            let movies = try? await repository.getTrendingMovie()
+            print("movies: \(movies?.first!) / type: \(type(of: movies))")
+            
+            let tvs = try? await repository.getTrendingTv()
+            print("tvs: \(tvs?.first!) / type: \(type(of: tvs))")
+            
+            let upcomingMovies = try? await repository.getUpcomingMovies()
+            print("upcomingMovies: \(upcomingMovies?.first!) / type: \(type(of: upcomingMovies))")
         }
     }
 }

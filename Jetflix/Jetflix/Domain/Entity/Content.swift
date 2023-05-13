@@ -13,25 +13,31 @@ enum ContentType: String {
     case tv
 }
 
-struct Movie: Hashable {
-    let adult: Bool
-    let id: Int
-    let title, originalTitle, overview: String
-    let posterPath, mediaType: String
-    let popularity: Double
-    let releaseDate: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
+protocol Contentable {
+    var id: Int { get set }
 }
 
-struct Tv: Hashable {
-    let adult: Bool
-    let id: Int
-    let name, originalName, overview: String
-    let posterPath, mediaType: String
-    let popularity: Double
-    let firstAirDate: String
-    let voteAverage: Double
-    let voteCount: Int
+struct Movie: Contentable, Hashable {
+    var id: Int
+    let adult: Bool?
+    let mediaType: String?
+    let title, originalTitle, overview: String?
+    var posterPath: String?
+    let popularity: Double?
+    let releaseDate: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
+}
+
+struct Tv: Contentable, Hashable {
+    var id: Int
+    let adult: Bool?
+    let mediaType: String?
+    let name, originalName, overview: String?
+    let posterPath: String?
+    let popularity: Double?
+    let firstAirDate: String?
+    let voteAverage: Double?
+    let voteCount: Int?
 }

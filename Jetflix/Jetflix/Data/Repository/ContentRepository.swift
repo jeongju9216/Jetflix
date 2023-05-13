@@ -9,16 +9,27 @@ import Foundation
 
 final class ContentRepository: ContentRepositoryProtocol {
     func getTrendingMovie() async throws -> [Movie] {
-        let contents = try await APICaller.shared.getTrendingContent(type: .movie).results
-        let movies: [Movie] = contents.compactMap { $0.toEntity() as? Movie }
+        let movies: [Movie] = try await APICaller.shared.getTrendingContent(type: .movie).compactMap { $0 as? Movie }
         return movies
     }
     
     func getTrendingTv() async throws -> [Tv] {
-        let contents = try await APICaller.shared.getTrendingContent(type: .tv).results
-        let tvs: [Tv] = contents.compactMap { $0.toEntity() as? Tv }
+        let tvs = try await APICaller.shared.getTrendingContent(type: .tv).compactMap { $0 as? Tv }
         return tvs
     }
     
+    func getUpcomingMovies() async throws -> [Movie] {
+        let movies: [Movie] = try await APICaller.shared.getUpcomingMovie()
+        return movies
+    }
     
+    func getPopularMovies() async throws -> [Movie] {
+        let movies: [Movie] = try await APICaller.shared.getPopularMovie()
+        return movies
+    }
+    
+    func getTopRatedMovies() async throws -> [Movie] {
+        let movies: [Movie] = try await APICaller.shared.getTopRatedMovie()
+        return movies
+    }
 }
