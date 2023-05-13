@@ -29,7 +29,7 @@ final class APICaller {
 
     //https://api.themoviedb.org/3/trending/movie/day?api_key=
     //https://api.themoviedb.org/3/trending/all/day?api_key=
-    func getTrendingTitles(type: TitleType) async throws -> TrendingTitleResponse {
+    func getTrendingContent(type: ContentType) async throws -> TMDBResponse {
         let urlString = "\(Constants.baseURL)/3/trending/\(type.rawValue)/day?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -37,7 +37,7 @@ final class APICaller {
         
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
-            return try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
+            return try JSONDecoder().decode(TMDBResponse.self, from: data)
         } catch {
             throw APIError.failedTargetData
         }

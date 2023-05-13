@@ -20,8 +20,8 @@ class HomeViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    let sectionTitles: [String] = ["Trending Movies", "Popular", "Trending TV", "Upcoming Movies", "Top rated"]
-    let repository = TitleRepository()
+    let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
+    let repository = ContentRepository()
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -39,6 +39,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.tableHeaderView = headerView
         
         getTrendingMovies()
+        getTrendingTVs()
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,8 +74,15 @@ class HomeViewController: UIViewController {
     //MARK: - Methods
     private func getTrendingMovies() {
         Task {
-            let titles = try? await repository.getTrendingTitle()
-            print(titles)
+            let titles = try? await repository.getTrendingMovie()
+            print(titles?.first)
+        }
+    }
+    
+    private func getTrendingTVs() {
+        Task {
+            let titles = try? await repository.getTrendingTv()
+            print(titles?.first)
         }
     }
 }
@@ -126,6 +134,6 @@ extension HomeViewController: UITableViewDataSource {
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.textColor = .label
-        header.textLabel?.text = header.textLabel?.text?.capitalized
+        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
     }
 }

@@ -22,10 +22,11 @@
 		9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */; };
 		9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */; };
 		9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EEE2A0FAAD9008A660E /* APICaller.swift */; };
-		9B811EF22A0FAF47008A660E /* TitleDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EF12A0FAF47008A660E /* TitleDTO.swift */; };
-		9B811EFD2A0FBEB9008A660E /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFC2A0FBEB9008A660E /* Title.swift */; };
-		9B811F002A0FC3B4008A660E /* TitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */; };
+		9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EF12A0FAF47008A660E /* ContentDTO.swift */; };
+		9B811EFD2A0FBEB9008A660E /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFC2A0FBEB9008A660E /* Content.swift */; };
+		9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */; };
 		9B811F022A0FC3BF008A660E /* TitleRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F012A0FC3BF008A660E /* TitleRepositoryProtocol.swift */; };
+		9B811F052A0FC9E2008A660E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F042A0FC9E2008A660E /* String.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,10 +66,11 @@
 		9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		9B811EEB2A0F8077008A660E /* PosterHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterHeaderUIView.swift; sourceTree = "<group>"; };
 		9B811EEE2A0FAAD9008A660E /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
-		9B811EF12A0FAF47008A660E /* TitleDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDTO.swift; sourceTree = "<group>"; };
-		9B811EFC2A0FBEB9008A660E /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
-		9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRepository.swift; sourceTree = "<group>"; };
+		9B811EF12A0FAF47008A660E /* ContentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDTO.swift; sourceTree = "<group>"; };
+		9B811EFC2A0FBEB9008A660E /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepository.swift; sourceTree = "<group>"; };
 		9B811F012A0FC3BF008A660E /* TitleRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRepositoryProtocol.swift; sourceTree = "<group>"; };
+		9B811F042A0FC9E2008A660E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +123,6 @@
 			children = (
 				9B811EE42A0F6687008A660E /* Application */,
 				9B811EDB2A0F6651008A660E /* Presentation */,
-				9B811EF02A0FAF35008A660E /* Models */,
 				9B811EF32A0FBBE5008A660E /* Domain */,
 				9B811EF42A0FBBE7008A660E /* Data */,
 				9B811EE62A0F66DD008A660E /* Resource */,
@@ -230,6 +231,7 @@
 			children = (
 				9B811EA02A0E6B73008A660E /* AppDelegate.swift */,
 				9B811EA22A0E6B73008A660E /* SceneDelegate.swift */,
+				9B811F032A0FC9D5008A660E /* Extensions */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -267,13 +269,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		9B811EF02A0FAF35008A660E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		9B811EF32A0FBBE5008A660E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,7 +290,7 @@
 		9B811EF62A0FBC0A008A660E /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EFC2A0FBEB9008A660E /* Title.swift */,
+				9B811EFC2A0FBEB9008A660E /* Content.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -311,7 +306,7 @@
 		9B811EF82A0FBC4B008A660E /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EFF2A0FC3B4008A660E /* TitleRepository.swift */,
+				9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -319,8 +314,8 @@
 		9B811EF92A0FBC4E008A660E /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EFE2A0FC0E4008A660E /* Services */,
 				9B811EFB2A0FBC63008A660E /* DTO */,
+				9B811EFE2A0FC0E4008A660E /* Services */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -328,7 +323,7 @@
 		9B811EFB2A0FBC63008A660E /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EF12A0FAF47008A660E /* TitleDTO.swift */,
+				9B811EF12A0FAF47008A660E /* ContentDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -339,6 +334,14 @@
 				9B811EEE2A0FAAD9008A660E /* APICaller.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		9B811F032A0FC9D5008A660E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9B811F042A0FC9E2008A660E /* String.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -475,15 +478,16 @@
 				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
-				9B811EFD2A0FBEB9008A660E /* Title.swift in Sources */,
+				9B811EFD2A0FBEB9008A660E /* Content.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,
 				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811F022A0FC3BF008A660E /* TitleRepositoryProtocol.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
-				9B811F002A0FC3B4008A660E /* TitleRepository.swift in Sources */,
-				9B811EF22A0FAF47008A660E /* TitleDTO.swift in Sources */,
+				9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */,
+				9B811F052A0FC9E2008A660E /* String.swift in Sources */,
+				9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
