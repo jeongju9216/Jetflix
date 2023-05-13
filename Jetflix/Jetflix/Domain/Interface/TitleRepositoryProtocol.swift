@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol TitleRepositoryProtocol {
-    func getTrendingTitle() async throws -> [Title]
+protocol ContentRepositoryProtocol {
+    func getTrendingMovie() async throws -> [Movie]
+    func getTrendingTv() async throws -> [Tv]
 }
