@@ -27,9 +27,12 @@ class HomeViewController: UIViewController {
         return tableView
     }()
     
+    private var headerView: PosterHeaderUIView?
+    
     //MARK: - Properties
     let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
     private let repository = ContentRepository()
+    private var randomTrendingMovie: Movie?
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -43,7 +46,8 @@ class HomeViewController: UIViewController {
         
         configurationNavbar()
         
-        let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
+        headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
+        configurePosterHeaderView()
         
         homeFeedTable.tableHeaderView = headerView
     }
@@ -76,6 +80,19 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
     }
+    
+    private func configurePosterHeaderView() {
+        Task {
+            guard let movies = try? await repository.getTrendingMovie(),
+                  let randomTrendingMovie = movies.randomElement() else {
+                return
+            }
+            
+            self.randomTrendingMovie = randomTrendingMovie
+            headerView?.configure(with: randomTrendingMovie)
+        }
+
+    }
 }
 
 //MARK: - UITableViewDelegate
@@ -90,9 +107,6 @@ extension HomeViewController: UITableViewDelegate {
             Task {
                 let movies = try? await repository.getTrendingMovie()
                 cell.configure(with: movies ?? [])
-                if let firstMovie = movies?.first, let headerView = tableView.tableHeaderView as? PosterHeaderUIView {
-                    headerView.configure(with: firstMovie)
-                }
             }
         case Sections.TrendingTv.rawValue:
             Task {

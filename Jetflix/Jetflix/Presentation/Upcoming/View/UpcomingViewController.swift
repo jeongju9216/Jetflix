@@ -72,7 +72,13 @@ extension UpcomingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let movie = movies[indexPath.row]
+        
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = movie
+        navigationController?.present(videoPreviewVC, animated: true)
     }
 }
 

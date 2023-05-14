@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SearchResultsViewControllerDelegate: AnyObject {
+    func searchResultsViewControllerDidTapItem(_ content: Contentable)
+}
+
 class SearchResultsViewController: UIViewController {
 
     //MARK: - Views
@@ -23,6 +27,7 @@ class SearchResultsViewController: UIViewController {
     
     //MARK: - Properties
     var movies: [Movie] = []
+    weak var delegate: SearchResultsViewControllerDelegate?
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -53,6 +58,12 @@ extension SearchResultsViewController: UICollectionViewDelegate {
         cell.configure(with: movies[indexPath.row].posterURL ?? "")
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        delegate?.searchResultsViewControllerDidTapItem(movies[indexPath.row])
     }
 }
 

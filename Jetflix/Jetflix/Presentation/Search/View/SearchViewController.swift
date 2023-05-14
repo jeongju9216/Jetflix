@@ -17,7 +17,8 @@ class SearchViewController: UIViewController {
     }()
 
     private let searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: SearchResultsViewController())
+        let searchResultsVC = SearchResultsViewController()
+        let controller = UISearchController(searchResultsController: searchResultsVC)
         
         controller.searchBar.placeholder = "Search for a Movie"
         controller.searchBar.searchBarStyle = .minimal
@@ -72,7 +73,8 @@ class SearchViewController: UIViewController {
         Task {
             if let searchResults = try? await repository.search(with: query),
                let resultsController = searchController.searchResultsController as? SearchResultsViewController {
-                print("searchResults: \(searchResults)")
+                
+                resultsController.delegate = self
                 resultsController.movies = searchResults
                 resultsController.searchResultsCollectionView.reloadData()
             }
@@ -94,6 +96,16 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let movie = movies[indexPath.row]
+        
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = movie
+        navigationController?.present(videoPreviewVC, animated: true)
     }
 }
 
@@ -126,5 +138,13 @@ extension SearchViewController: UISearchResultsUpdating {
         }
         
         search(with: query)
+    }
+}
+
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    func searchResultsViewControllerDidTapItem(_ content: Contentable) {
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = content
+        navigationController?.present(videoPreviewVC, animated: true)
     }
 }
