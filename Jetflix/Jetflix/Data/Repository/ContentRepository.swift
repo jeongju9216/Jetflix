@@ -38,3 +38,9 @@ final class ContentRepository: ContentRepositoryProtocol {
         return movies
     }
 }
+
+extension ContentRepository {
+    func search(with query: String) async throws -> [Movie] {
+        return try await APICaller.shared.search(with: query)
+    }
+}

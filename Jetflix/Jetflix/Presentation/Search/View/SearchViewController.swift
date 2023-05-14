@@ -15,6 +15,15 @@ class SearchViewController: UIViewController {
         table.register(ContentTableViewCell.self, forCellReuseIdentifier: ContentTableViewCell.identifier)
         return table
     }()
+
+    private let searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultsViewController())
+        
+        controller.searchBar.placeholder = "Search for a Movie"
+        controller.searchBar.searchBarStyle = .minimal
+        
+        return controller
+    }()
     
     //MARK: - Properties
     let repository = ContentRepository()
@@ -33,6 +42,11 @@ class SearchViewController: UIViewController {
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.tintColor = .label
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        
         fetchData()
     }
     
@@ -50,6 +64,17 @@ class SearchViewController: UIViewController {
                 discoverTable.reloadData()
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    private func search(with query: String) {
+        Task {
+            if let searchResults = try? await repository.search(with: query),
+               let resultsController = searchController.searchResultsController as? SearchResultsViewController {
+                print("searchResults: \(searchResults)")
+                resultsController.movies = searchResults
+                resultsController.searchResultsCollectionView.reloadData()
             }
         }
     }
@@ -76,5 +101,30 @@ extension SearchViewController: UITableViewDelegate {
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+
+        search(with: query)
+    }
+}
+
+//MARK: - UISearchResultsUpdating
+extension SearchViewController: UISearchResultsUpdating {
+    //todo: 타이머를 이용한 검색 최적화
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              query.trimmingCharacters(in: .whitespaces).count >= 3 else {
+            return
+        }
+        
+        search(with: query)
     }
 }
