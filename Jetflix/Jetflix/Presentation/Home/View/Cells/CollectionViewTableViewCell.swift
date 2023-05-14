@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol CollectionViewTableViewCellDelegate: AnyObject {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Contentable)
+}
+
 class CollectionViewTableViewCell: UITableViewCell {
     static let identifier = "CollectionViewTableViewCell"
+    
+    weak var delegate: CollectionViewTableViewCellDelegate?
     
     private var contents: [Contentable] = []
     
@@ -76,13 +82,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let content = contents[indexPath.row]
-        let title = content.displayTitle + " trailer"
-        
-        //todo: Delegate 이용해서 직접 API Call 안 하도록 수정
-        Task {
-            let movieResult = try? await APICaller.shared.getMovieFromYoutube(with: title)
-            print("movieResult id: \(movieResult?.id)")
-        }
+        delegate?.collectionViewTableViewCellDidTapCell(self, content: content)
     }
 }
 
