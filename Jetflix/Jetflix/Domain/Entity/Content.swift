@@ -29,6 +29,16 @@ struct Movie: Contentable, Hashable {
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
+    
+    var displayTitle: String {
+        return originalTitle ?? title ?? "Unknown"
+    }
+    
+    var posterURL: String? {
+        guard let posterPath = posterPath else { return nil }
+        
+        return "https://image.tmdb.org/t/p/w500" + posterPath
+    }
 }
 
 struct Tv: Contentable, Hashable {
@@ -41,4 +51,14 @@ struct Tv: Contentable, Hashable {
     let firstAirDate: String?
     let voteAverage: Double?
     let voteCount: Int?
+    
+    var displayName: String {
+        return originalName ?? name ?? "Unknown"
+    }
+    
+    var posterURL: String? {
+        guard let posterPath = posterPath else { return nil }
+        
+        return "https://image.tmdb.org/t/p/w500" + posterPath
+    }
 }
