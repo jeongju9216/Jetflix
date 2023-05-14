@@ -8,14 +8,14 @@
 import Foundation
 
 struct TMDBResponse: Decodable {
-    let results: [Content]
+    let results: [ContentDTO]
 }
 
 struct TMDBMovieResponse: Decodable {
     let results: [MovieDTO]
 }
 
-enum Content {
+enum ContentDTO {
     case movie(MovieDTO)
     case tv(TvDTO)
     
@@ -29,7 +29,7 @@ enum Content {
     }
 }
 
-extension Content: Decodable {
+extension ContentDTO: Decodable {
     private enum CodingKeys: String, CodingKey {
         case mediaType = "media_type"
     }

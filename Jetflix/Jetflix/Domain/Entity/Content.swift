@@ -15,6 +15,7 @@ enum ContentType: String {
 
 protocol Contentable {
     var id: Int { get set }
+    var posterPath: String? { get set }
 }
 
 struct Movie: Contentable, Hashable {
@@ -35,7 +36,7 @@ struct Tv: Contentable, Hashable {
     let adult: Bool?
     let mediaType: String?
     let name, originalName, overview: String?
-    let posterPath: String?
+    var posterPath: String?
     let popularity: Double?
     let firstAirDate: String?
     let voteAverage: Double?

@@ -27,6 +27,8 @@
 		9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */; };
 		9B811F022A0FC3BF008A660E /* ContentRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */; };
 		9B811F052A0FC9E2008A660E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F042A0FC9E2008A660E /* String.swift */; };
+		9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */; };
+		9BFDF6FD2A107D42005E3953 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9BFDF6FC2A107D42005E3953 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,7 @@
 		9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepository.swift; sourceTree = "<group>"; };
 		9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepositoryProtocol.swift; sourceTree = "<group>"; };
 		9B811F042A0FC9E2008A660E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BFDF6FD2A107D42005E3953 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811EE92A0F6E17008A660E /* CollectionViewTableViewCell.swift */,
+				9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -360,6 +365,9 @@
 			dependencies = (
 			);
 			name = Jetflix;
+			packageProductDependencies = (
+				9BFDF6FC2A107D42005E3953 /* Kingfisher */,
+			);
 			productName = Jetflix;
 			productReference = 9B811E9D2A0E6B73008A660E /* Jetflix.app */;
 			productType = "com.apple.product-type.application";
@@ -432,6 +440,9 @@
 				Base,
 			);
 			mainGroup = 9B811E942A0E6B73008A660E;
+			packageReferences = (
+				9BFDF6FB2A107D42005E3953 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 9B811E9E2A0E6B73008A660E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -486,6 +497,7 @@
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
 				9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */,
+				9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */,
 				9B811F052A0FC9E2008A660E /* String.swift in Sources */,
 				9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
@@ -820,6 +832,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9BFDF6FB2A107D42005E3953 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9BFDF6FC2A107D42005E3953 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BFDF6FB2A107D42005E3953 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9B811E952A0E6B73008A660E /* Project object */;
 }

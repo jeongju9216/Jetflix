@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum Sections: Int {
+    case TrendingMovies
+    case TrendingTv
+    case Popular
+    case Upcoming
+    case TopRated
+}
+
 class HomeViewController: UIViewController {
 
     //MARK: - Views
@@ -37,8 +45,6 @@ class HomeViewController: UIViewController {
         
         let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
-        
-        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -69,20 +75,6 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
     }
-    
-    //MARK: - Methods
-    private func fetchData() {
-        Task {
-            let movies = try? await repository.getTrendingMovie()
-            print("movies: \(movies?.first!) / type: \(type(of: movies))")
-            
-            let tvs = try? await repository.getTrendingTv()
-            print("tvs: \(tvs?.first!) / type: \(type(of: tvs))")
-            
-            let upcomingMovies = try? await repository.getUpcomingMovies()
-            print("upcomingMovies: \(upcomingMovies?.first!) / type: \(type(of: upcomingMovies))")
-        }
-    }
 }
 
 //MARK: - UITableViewDelegate
@@ -90,6 +82,35 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
             return UITableViewCell()
+        }
+        
+        switch indexPath.section {
+        case Sections.TrendingMovies.rawValue:
+            Task {
+                let movies = try? await repository.getTrendingMovie()
+                cell.configure(with: movies ?? [])
+            }
+        case Sections.TrendingTv.rawValue:
+            Task {
+                let tvs = try? await repository.getTrendingTv()
+                cell.configure(with: tvs ?? [])
+            }
+        case Sections.Popular.rawValue:
+            Task {
+                let movies = try? await repository.getPopularMovies()
+                cell.configure(with: movies ?? [])
+            }
+        case Sections.Upcoming.rawValue:
+            Task {
+                let movies = try? await repository.getUpcomingMovies()
+                cell.configure(with: movies ?? [])
+            }
+        case Sections.TopRated.rawValue:
+            Task {
+                let movies = try? await repository.getTopRatedMovies()
+                cell.configure(with: movies ?? [])
+            }
+        default: break
         }
         
         return cell
