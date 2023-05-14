@@ -32,6 +32,8 @@
 		9BFDF6FF2A108743005E3953 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */; };
 		9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */; };
 		9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */; };
+		9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */; };
+		9BFDF7102A10F270005E3953 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF70F2A10F270005E3953 /* VideoPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResponseDTO.swift; sourceTree = "<group>"; };
+		9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
+		9BFDF70F2A10F270005E3953 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,7 @@
 			children = (
 				9B811EE42A0F6687008A660E /* Application */,
 				9B811EDB2A0F6651008A660E /* Presentation */,
+				9BFDF70A2A10F0E4005E3953 /* VideoPreview */,
 				9B811EF32A0FBBE5008A660E /* Domain */,
 				9B811EF42A0FBBE7008A660E /* Data */,
 				9B811EE62A0F66DD008A660E /* Resource */,
@@ -182,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				9B811EE22A0F6682008A660E /* View */,
-				9BFDF7022A10AEAF005E3953 /* SearchResults */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -226,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811ED62A0F5803008A660E /* SearchViewController.swift */,
+				9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811EFC2A0FBEB9008A660E /* Content.swift */,
+				9BFDF70F2A10F270005E3953 /* VideoPreview.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -358,18 +364,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		9BFDF7022A10AEAF005E3953 /* SearchResults */ = {
+		9BFDF70A2A10F0E4005E3953 /* VideoPreview */ = {
 			isa = PBXGroup;
 			children = (
-				9BFDF7032A10AEB9005E3953 /* View */,
+				9BFDF70B2A10F0F2005E3953 /* View */,
 			);
-			path = SearchResults;
+			path = VideoPreview;
 			sourceTree = "<group>";
 		};
-		9BFDF7032A10AEB9005E3953 /* View */ = {
+		9BFDF70B2A10F0F2005E3953 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */,
+				9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -521,7 +527,9 @@
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811F022A0FC3BF008A660E /* ContentRepositoryProtocol.swift in Sources */,
 				9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */,
+				9BFDF7102A10F270005E3953 /* VideoPreview.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
+				9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */,
 				9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
 				9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */,

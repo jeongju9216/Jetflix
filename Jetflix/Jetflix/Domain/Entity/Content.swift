@@ -17,6 +17,7 @@ protocol Contentable {
     var id: Int { get set }
     var posterPath: String? { get set }
     var displayTitle: String { get }
+    var displayOverView: String { get }
 }
 
 struct Movie: Contentable, Hashable {
@@ -33,6 +34,10 @@ struct Movie: Contentable, Hashable {
     
     var displayTitle: String {
         return originalTitle ?? title ?? "Unknown"
+    }
+    
+    var displayOverView: String {
+        return overview ?? ""
     }
     
     var posterURL: String? {
@@ -57,6 +62,10 @@ struct Tv: Contentable, Hashable {
         return originalName ?? name ?? "Unknown"
     }
     
+    var displayOverView: String {
+        return overview ?? ""
+    }
+    
     var posterURL: String? {
         guard let posterPath = posterPath else { return nil }
         
@@ -64,11 +73,4 @@ struct Tv: Contentable, Hashable {
     }
 }
 
-struct VideoElement {
-    let id: IdVideoElement
-}
 
-struct IdVideoElement {
-    let kind: String
-    let videoId: String
-}

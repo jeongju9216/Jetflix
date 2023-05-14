@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
-    let repository = ContentRepository()
+    private let repository = ContentRepository()
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -117,6 +117,8 @@ extension HomeViewController: UITableViewDelegate {
         default: break
         }
         
+        cell.delegate = self
+        
         return cell
     }
     
@@ -158,5 +160,14 @@ extension HomeViewController: UITableViewDataSource {
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.textColor = .label
         header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
+    }
+}
+
+//MARK: - CollectionViewTableViewCellDelegate
+extension HomeViewController: CollectionViewTableViewCellDelegate {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Contentable) {
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = content
+        navigationController?.present(videoPreviewVC, animated: true)
     }
 }
