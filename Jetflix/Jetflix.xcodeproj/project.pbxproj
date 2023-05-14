@@ -29,6 +29,7 @@
 		9B811F052A0FC9E2008A660E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B811F042A0FC9E2008A660E /* String.swift */; };
 		9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */; };
 		9BFDF6FD2A107D42005E3953 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9BFDF6FC2A107D42005E3953 /* Kingfisher */; };
+		9BFDF6FF2A108743005E3953 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepositoryProtocol.swift; sourceTree = "<group>"; };
 		9B811F042A0FC9E2008A660E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
+		9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811ED42A0F57F5008A660E /* UpcomingViewController.swift */,
+				9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
 				9B811EFD2A0FBEB9008A660E /* Content.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,
+				9BFDF6FF2A108743005E3953 /* ContentTableViewCell.swift in Sources */,
 				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811F022A0FC3BF008A660E /* ContentRepositoryProtocol.swift in Sources */,
