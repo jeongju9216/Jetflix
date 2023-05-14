@@ -15,12 +15,14 @@ class ContentCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         contentView.addSubview(posterImageView)
     }
     
@@ -30,15 +32,14 @@ class ContentCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         posterImageView.frame = contentView.bounds
     }
     
     func configure(with urlString: String) {
 //        print("\(#function) urlString: \(urlString)")
 //        posterImageView.setImageUsingJIC(url: "https://image.tmdb.org/t/p/w500" + urlString)
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + urlString) else {
-            return
-        }
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + urlString) else { return }
         
         posterImageView.kf.setImage(with: url)
     }
