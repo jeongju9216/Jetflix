@@ -78,6 +78,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
         let content = contents[indexPath.row]
         let title = content.displayTitle + " trailer"
         
+        //todo: Delegate 이용해서 직접 API Call 안 하도록 수정
         Task {
             let movieResult = try? await APICaller.shared.getMovieFromYoutube(with: title)
             print("movieResult id: \(movieResult?.id)")
