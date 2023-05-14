@@ -43,4 +43,8 @@ extension ContentRepository {
     func search(with query: String) async throws -> [Movie] {
         return try await APICaller.shared.search(with: query)
     }
+    
+    func getMovieFromYoutube(with query: String) async throws -> VideoElement {
+        return try await APICaller.shared.getMovieFromYoutube(with: query)
+    }
 }

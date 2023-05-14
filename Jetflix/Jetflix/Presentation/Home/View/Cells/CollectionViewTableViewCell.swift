@@ -71,6 +71,19 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         //todo: 이미지 다운로드 취소
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let content = contents[indexPath.row]
+        let title = content.displayTitle + " trailer"
+        
+        //todo: Delegate 이용해서 직접 API Call 안 하도록 수정
+        Task {
+            let movieResult = try? await APICaller.shared.getMovieFromYoutube(with: title)
+            print("movieResult id: \(movieResult?.id)")
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource

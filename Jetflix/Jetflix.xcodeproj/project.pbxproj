@@ -31,6 +31,7 @@
 		9BFDF6FD2A107D42005E3953 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9BFDF6FC2A107D42005E3953 /* Kingfisher */; };
 		9BFDF6FF2A108743005E3953 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */; };
 		9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */; };
+		9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		9BFDF6F62A107710005E3953 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		9BFDF6FE2A108743005E3953 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		9BFDF7042A10AEC4005E3953 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResponseDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811EF12A0FAF47008A660E /* ContentDTO.swift */,
+				9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				9B811F022A0FC3BF008A660E /* ContentRepositoryProtocol.swift in Sources */,
 				9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
+				9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
 				9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */,
 				9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */,
