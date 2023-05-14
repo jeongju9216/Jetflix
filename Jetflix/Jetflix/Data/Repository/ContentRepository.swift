@@ -32,4 +32,9 @@ final class ContentRepository: ContentRepositoryProtocol {
         let movies: [Movie] = try await APICaller.shared.getTopRatedMovie()
         return movies
     }
+    
+    func getDiscoverMovies() async throws -> [Movie] {
+        let movies: [Movie] = try await APICaller.shared.getDiscoverMovie()
+        return movies
+    }
 }

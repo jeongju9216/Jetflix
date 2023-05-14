@@ -36,6 +36,8 @@ class ContentTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
         
         return imageView
     }()
@@ -57,21 +59,21 @@ class ContentTableViewCell: UITableViewCell {
     //MARK: - Methods
     private func applyConstraints() {
         let posterImageViewConstraints = [
-            posterImageView.widthAnchor.constraint(equalToConstant: 60),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            posterImageView.widthAnchor.constraint(equalToConstant: 80),
+            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ]
         
         let playButtonConstraints = [
-            playButton.widthAnchor.constraint(equalToConstant: 40),
-            playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            playButton.widthAnchor.constraint(equalToConstant: 35),
+            playButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         
         let titleLabelConstraints = [
-            titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -15),
+            titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: -10),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         

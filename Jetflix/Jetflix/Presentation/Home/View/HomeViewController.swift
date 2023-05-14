@@ -43,7 +43,8 @@ class HomeViewController: UIViewController {
         
         configurationNavbar()
         
-        let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
+        
         homeFeedTable.tableHeaderView = headerView
     }
     
@@ -89,6 +90,9 @@ extension HomeViewController: UITableViewDelegate {
             Task {
                 let movies = try? await repository.getTrendingMovie()
                 cell.configure(with: movies ?? [])
+                if let firstMovie = movies?.first, let headerView = tableView.tableHeaderView as? PosterHeaderUIView {
+                    headerView.configure(with: firstMovie)
+                }
             }
         case Sections.TrendingTv.rawValue:
             Task {

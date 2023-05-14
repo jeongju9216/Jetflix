@@ -15,4 +15,5 @@ protocol ContentRepositoryProtocol {
     func getUpcomingMovies() async throws -> [Movie]
     func getPopularMovies() async throws -> [Movie]
     func getTopRatedMovies() async throws -> [Movie]
+    func getDiscoverMovies() async throws -> [Movie]
 }
