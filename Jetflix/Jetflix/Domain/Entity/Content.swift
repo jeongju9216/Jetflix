@@ -16,6 +16,7 @@ enum ContentType: String {
 protocol Contentable {
     var id: Int { get set }
     var posterPath: String? { get set }
+    var displayTitle: String { get }
 }
 
 struct Movie: Contentable, Hashable {
@@ -52,7 +53,7 @@ struct Tv: Contentable, Hashable {
     let voteAverage: Double?
     let voteCount: Int?
     
-    var displayName: String {
+    var displayTitle: String {
         return originalName ?? name ?? "Unknown"
     }
     
@@ -61,4 +62,13 @@ struct Tv: Contentable, Hashable {
         
         return "https://image.tmdb.org/t/p/w500" + posterPath
     }
+}
+
+struct VideoElement {
+    let id: IdVideoElement
+}
+
+struct IdVideoElement {
+    let kind: String
+    let videoId: String
 }
