@@ -82,9 +82,9 @@ class ContentTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(titleLabelConstraints)
     }
     
-    func configure(with content: Movie) {
-        guard let posterURL = content.posterURL,
-                let url = URL(string: posterURL) else { return }
+    func configure(with content: Content) {
+        guard let posterURLString = content.posterURLString,
+                let url = URL(string: posterURLString) else { return }
         
         posterImageView.kf.setImage(with: url)
         titleLabel.text = content.displayTitle

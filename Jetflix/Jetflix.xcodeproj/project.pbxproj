@@ -34,6 +34,9 @@
 		9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */; };
 		9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */; };
 		9BFDF7102A10F270005E3953 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF70F2A10F270005E3953 /* VideoPreview.swift */; };
+		9BFDF7142A11E4DF005E3953 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7132A11E4DF005E3953 /* CoreDataStorage.swift */; };
+		9BFDF7172A11E511005E3953 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7152A11E511005E3953 /* CoreData.xcdatamodeld */; };
+		9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7182A11EE26005E3953 /* ContentStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +87,9 @@
 		9BFDF7082A10E458005E3953 /* YoutubeSearchResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResponseDTO.swift; sourceTree = "<group>"; };
 		9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		9BFDF70F2A10F270005E3953 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
+		9BFDF7132A11E4DF005E3953 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		9BFDF7162A11E511005E3953 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		9BFDF7182A11EE26005E3953 /* ContentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +305,7 @@
 		9B811EF42A0FBBE7008A660E /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				9BFDF7122A11E4A8005E3953 /* CoreData */,
 				9B811EF82A0FBC4B008A660E /* Repository */,
 				9B811EF92A0FBC4E008A660E /* Network */,
 			);
@@ -378,6 +385,16 @@
 				9BFDF70C2A10F0FC005E3953 /* VideoPreviewViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		9BFDF7122A11E4A8005E3953 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF7182A11EE26005E3953 /* ContentStorage.swift */,
+				9BFDF7132A11E4DF005E3953 /* CoreDataStorage.swift */,
+				9BFDF7152A11E511005E3953 /* CoreData.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -531,9 +548,12 @@
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */,
 				9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */,
+				9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */,
+				9BFDF7172A11E511005E3953 /* CoreData.xcdatamodeld in Sources */,
 				9B811ED52A0F57F5008A660E /* UpcomingViewController.swift in Sources */,
 				9B811F002A0FC3B4008A660E /* ContentRepository.swift in Sources */,
 				9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */,
+				9BFDF7142A11E4DF005E3953 /* CoreDataStorage.swift in Sources */,
 				9B811F052A0FC9E2008A660E /* String.swift in Sources */,
 				9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
@@ -887,6 +907,19 @@
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		9BFDF7152A11E511005E3953 /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9BFDF7162A11E511005E3953 /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 9BFDF7162A11E511005E3953 /* CoreData.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9B811E952A0E6B73008A660E /* Project object */;
 }
