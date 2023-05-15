@@ -9,6 +9,7 @@ import UIKit
 
 protocol CollectionViewTableViewCellDelegate: AnyObject {
     func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Content)
+    func collectionViewTableViewCellDidClickDownload(content: Content)
 }
 
 class CollectionViewTableViewCell: UITableViewCell {
@@ -58,7 +59,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     }
     
     private func downloadTitleAt(indexPath: IndexPath) {
-        print("Donwloading \(contents[indexPath.row].displayTitle)")
+        delegate?.collectionViewTableViewCellDidClickDownload(content: contents[indexPath.row])
     }
 }
 

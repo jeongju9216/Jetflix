@@ -184,4 +184,14 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
         videoPreviewVC.content = content
         navigationController?.present(videoPreviewVC, animated: true)
     }
+    
+    func collectionViewTableViewCellDidClickDownload(content: Content) {
+        Task {
+            do {
+                try await repository.saveContentWith(content: content)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
