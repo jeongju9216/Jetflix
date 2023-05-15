@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
     //MARK: - Properties
     let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
     private let repository = ContentRepository()
-    private var randomTrendingMovie: Movie?
+    private var randomTrendingMovie: Content?
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -179,7 +179,7 @@ extension HomeViewController: UITableViewDataSource {
 
 //MARK: - CollectionViewTableViewCellDelegate
 extension HomeViewController: CollectionViewTableViewCellDelegate {
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Contentable) {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Content) {
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = content
         navigationController?.present(videoPreviewVC, animated: true)

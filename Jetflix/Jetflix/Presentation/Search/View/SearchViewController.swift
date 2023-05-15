@@ -28,7 +28,7 @@ class SearchViewController: UIViewController {
     
     //MARK: - Properties
     let repository = ContentRepository()
-    private var movies: [Movie] = []
+    private var contents: [Content] = []
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -61,7 +61,7 @@ class SearchViewController: UIViewController {
     private func fetchData() {
         Task {
             do {
-                movies = try await repository.getDiscoverMovies()
+                contents = try await repository.getDiscoverMovies()
                 discoverTable.reloadData()
             } catch {
                 print(error)
@@ -75,7 +75,7 @@ class SearchViewController: UIViewController {
                let resultsController = searchController.searchResultsController as? SearchResultsViewController {
                 
                 resultsController.delegate = self
-                resultsController.movies = searchResults
+                resultsController.contents = searchResults
                 resultsController.searchResultsCollectionView.reloadData()
             }
         }
@@ -89,7 +89,7 @@ extension SearchViewController: UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(with: movies[indexPath.row])
+        cell.configure(with: contents[indexPath.row])
 
         return cell
     }
@@ -101,7 +101,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let movie = movies[indexPath.row]
+        let movie = contents[indexPath.row]
         
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = movie
@@ -112,7 +112,7 @@ extension SearchViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return contents.count
     }
 }
 
@@ -142,7 +142,7 @@ extension SearchViewController: UISearchResultsUpdating {
 }
 
 extension SearchViewController: SearchResultsViewControllerDelegate {
-    func searchResultsViewControllerDidTapItem(_ content: Contentable) {
+    func searchResultsViewControllerDidTapItem(_ content: Content) {
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = content
         navigationController?.present(videoPreviewVC, animated: true)

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CollectionViewTableViewCellDelegate: AnyObject {
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Contentable)
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Content)
 }
 
 class CollectionViewTableViewCell: UITableViewCell {
@@ -16,7 +16,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     
     weak var delegate: CollectionViewTableViewCellDelegate?
     
-    private var contents: [Contentable] = []
+    private var contents: [Content] = []
     
     //MARK: - Views
     private let collectionView: UICollectionView = {
@@ -50,11 +50,15 @@ class CollectionViewTableViewCell: UITableViewCell {
     }
     
     //MARK: - Methods
-    func configure(with contents: [Contentable]) {
+    func configure(with contents: [Content]) {
         self.contents = contents
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+    
+    private func downloadTitleAt(indexPath: IndexPath) {
+        print("Donwloading \(contents[indexPath.row].displayTitle)")
     }
 }
 
@@ -65,11 +69,11 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
             return UICollectionViewCell()
         }
         
-        guard let posterPath = contents[indexPath.row].posterPath else {
+        guard let posterURLString = contents[indexPath.row].posterURLString else {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: posterPath)
+        cell.configure(with: posterURLString)
         
         return cell
     }
@@ -83,6 +87,19 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
         
         let content = contents[indexPath.row]
         delegate?.collectionViewTableViewCellDidTapCell(self, content: content)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        let config = UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil) { [weak self] _ in
+                let downloadAction = UIAction(title: "Download", state: .off) { _ in
+                    self?.downloadTitleAt(indexPath: indexPaths[0])
+                }
+                return UIMenu(options: .displayInline, children: [downloadAction])
+            }
+        
+        return config
     }
 }
 

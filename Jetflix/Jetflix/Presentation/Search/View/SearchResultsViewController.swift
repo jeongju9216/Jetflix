@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelegate: AnyObject {
-    func searchResultsViewControllerDidTapItem(_ content: Contentable)
+    func searchResultsViewControllerDidTapItem(_ content: Content)
 }
 
 class SearchResultsViewController: UIViewController {
@@ -26,7 +26,7 @@ class SearchResultsViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    var movies: [Movie] = []
+    var contents: [Content] = []
     weak var delegate: SearchResultsViewControllerDelegate?
     
     //MARK: - Life Cycles
@@ -55,7 +55,7 @@ extension SearchResultsViewController: UICollectionViewDelegate {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: movies[indexPath.row].posterURL ?? "")
+        cell.configure(with: contents[indexPath.row].posterURLString ?? "")
         
         return cell
     }
@@ -63,13 +63,13 @@ extension SearchResultsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        delegate?.searchResultsViewControllerDidTapItem(movies[indexPath.row])
+        delegate?.searchResultsViewControllerDidTapItem(contents[indexPath.row])
     }
 }
 
 //MARK: - UICollectionViewDataSource
 extension SearchResultsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return contents.count
     }
 }

@@ -39,7 +39,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
     func configure(with urlString: String) {
 //        print("\(#function) urlString: \(urlString)")
 //        posterImageView.setImageUsingJIC(url: "https://image.tmdb.org/t/p/w500" + urlString)
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + urlString) else { return }
+        guard let url = URL(string: urlString) else { return }
         
         posterImageView.kf.setImage(with: url)
     }

@@ -31,7 +31,7 @@ final class APICaller {
 
     //https://api.themoviedb.org/3/trending/movie/day?api_key=
     //https://api.themoviedb.org/3/trending/all/day?api_key=
-    func getTrendingContent(type: ContentType) async throws -> [Contentable] {
+    func getTrendingContent(type: ContentType) async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/trending/\(type.rawValue)/day?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -47,7 +47,7 @@ final class APICaller {
     }
     
     //https://api.themoviedb.org/3/movie/upcoming?api_key=
-    func getUpcomingMovie() async throws -> [Movie] {
+    func getUpcomingMovie() async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/movie/upcoming?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -57,7 +57,7 @@ final class APICaller {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             let contents = try JSONDecoder().decode(TMDBMovieResponse.self, from: data).results
-            return contents.compactMap { $0.toEntity() as Movie }
+            return contents.compactMap { $0.toEntity() }
         } catch {
             throw APIError.failedTargetData
         }
@@ -65,7 +65,7 @@ final class APICaller {
     }
     
     //https://api.themoviedb.org/3/movie/popular
-    func getPopularMovie() async throws -> [Movie] {
+    func getPopularMovie() async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/movie/popular?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -75,14 +75,14 @@ final class APICaller {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             let contents = try JSONDecoder().decode(TMDBMovieResponse.self, from: data).results
-            return contents.compactMap { $0.toEntity() as Movie }
+            return contents.compactMap { $0.toEntity() }
         } catch {
             throw APIError.failedTargetData
         }
     }
     
     //https://api.themoviedb.org/3/movie/top_rated
-    func getTopRatedMovie() async throws -> [Movie] {
+    func getTopRatedMovie() async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/movie/top_rated?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -92,7 +92,7 @@ final class APICaller {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             let contents = try JSONDecoder().decode(TMDBMovieResponse.self, from: data).results
-            return contents.compactMap { $0.toEntity() as Movie }
+            return contents.compactMap { $0.toEntity() }
         } catch {
             throw APIError.failedTargetData
         }
@@ -100,7 +100,7 @@ final class APICaller {
     
     //https://api.themoviedb.org/3/discover/movie
     //https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&sort_by=popularity.desc
-    func getDiscoverMovie() async throws -> [Movie] {
+    func getDiscoverMovie() async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/discover/movie?api_key=\(Constants.API_KEY)&include_adult=true&page=1&sort_by=popularity.desc"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
@@ -110,7 +110,7 @@ final class APICaller {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             let contents = try JSONDecoder().decode(TMDBMovieResponse.self, from: data).results
-            return contents.compactMap { $0.toEntity() as Movie }
+            return contents.compactMap { $0.toEntity() }
         } catch {
             throw APIError.failedTargetData
         }
@@ -121,7 +121,7 @@ final class APICaller {
 extension APICaller {
     //https://api.themoviedb.org/3/search/movie
     //https://api.themoviedb.org/3/search/multi
-    func search(with query: String) async throws -> [Movie] {
+    func search(with query: String) async throws -> [Content] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { throw APIError.urlError }
         
         let urlString = "\(Constants.baseURL)/3/search/movie?api_key=\(Constants.API_KEY)&query=\(query)&include_adult=true&page=1"
@@ -131,7 +131,7 @@ extension APICaller {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             let contents = try JSONDecoder().decode(TMDBMovieResponse.self, from: data).results
-            return contents.compactMap { $0.toEntity() as Movie }
+            return contents.compactMap { $0.toEntity() }
         } catch {
             throw APIError.failedTargetData
         }

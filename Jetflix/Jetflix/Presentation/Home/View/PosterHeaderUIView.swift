@@ -85,14 +85,15 @@ class PosterHeaderUIView: UIView {
     }
     
     //MARK: - Methods
-    func configure(with movie: Movie) {
-        guard let posterURL = movie.posterURL, let url = URL(string: posterURL) else {
+    func configure(with content: Content) {
+        guard let posterURLString = content.posterURLString,
+              let url = URL(string: posterURLString) else {
             posterImageView.image = UIImage(named: "PosterImage")
             return
         }
         
         posterImageView.kf.setImage(with: url)
-        titleLabel.text = movie.displayTitle
+        titleLabel.text = content.displayTitle
     }
     
     private func applayConstraints() {

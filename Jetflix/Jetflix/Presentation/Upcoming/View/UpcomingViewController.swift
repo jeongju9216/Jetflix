@@ -17,7 +17,7 @@ class UpcomingViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    var movies: [Movie] = []
+    var contents: [Content] = []
     let repository = ContentRepository()
     
     //MARK: - Life Cycles
@@ -46,7 +46,7 @@ class UpcomingViewController: UIViewController {
     private func fetchUpcoming() {
         Task {
             do {
-                movies = try await repository.getUpcomingMovies()
+                contents = try await repository.getUpcomingMovies()
                 upcomingTable.reloadData()
             } catch {
                 print(error)
@@ -62,7 +62,7 @@ extension UpcomingViewController: UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(with: movies[indexPath.row])
+        cell.configure(with: contents[indexPath.row])
         
         return cell
     }
@@ -74,7 +74,7 @@ extension UpcomingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let movie = movies[indexPath.row]
+        let movie = contents[indexPath.row]
         
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = movie
@@ -85,6 +85,6 @@ extension UpcomingViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource
 extension UpcomingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return contents.count
     }
 }

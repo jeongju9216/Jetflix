@@ -8,39 +8,39 @@
 import Foundation
 
 final class ContentRepository: ContentRepositoryProtocol {
-    func getTrendingMovie() async throws -> [Movie] {
-        let movies: [Movie] = try await APICaller.shared.getTrendingContent(type: .movie).compactMap { $0 as? Movie }
+    func getTrendingMovie() async throws -> [Content] {
+        let movies: [Content] = try await APICaller.shared.getTrendingContent(type: .movie)
         return movies
     }
     
-    func getTrendingTv() async throws -> [Tv] {
-        let tvs = try await APICaller.shared.getTrendingContent(type: .tv).compactMap { $0 as? Tv }
+    func getTrendingTv() async throws -> [Content] {
+        let tvs: [Content] = try await APICaller.shared.getTrendingContent(type: .tv)
         return tvs
     }
     
-    func getUpcomingMovies() async throws -> [Movie] {
-        let movies: [Movie] = try await APICaller.shared.getUpcomingMovie()
+    func getUpcomingMovies() async throws -> [Content] {
+        let movies: [Content] = try await APICaller.shared.getUpcomingMovie()
         return movies
     }
     
-    func getPopularMovies() async throws -> [Movie] {
-        let movies: [Movie] = try await APICaller.shared.getPopularMovie()
+    func getPopularMovies() async throws -> [Content] {
+        let movies: [Content] = try await APICaller.shared.getPopularMovie()
         return movies
     }
     
-    func getTopRatedMovies() async throws -> [Movie] {
-        let movies: [Movie] = try await APICaller.shared.getTopRatedMovie()
+    func getTopRatedMovies() async throws -> [Content] {
+        let movies: [Content] = try await APICaller.shared.getTopRatedMovie()
         return movies
     }
     
-    func getDiscoverMovies() async throws -> [Movie] {
-        let movies: [Movie] = try await APICaller.shared.getDiscoverMovie()
+    func getDiscoverMovies() async throws -> [Content] {
+        let movies: [Content] = try await APICaller.shared.getDiscoverMovie()
         return movies
     }
 }
 
 extension ContentRepository {
-    func search(with query: String) async throws -> [Movie] {
+    func search(with query: String) async throws -> [Content] {
         return try await APICaller.shared.search(with: query)
     }
     

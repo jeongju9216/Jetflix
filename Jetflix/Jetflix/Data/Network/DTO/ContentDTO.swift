@@ -19,7 +19,7 @@ enum ContentDTO {
     case movie(MovieDTO)
     case tv(TvDTO)
     
-    func toEntity() -> Contentable {
+    func toEntity() -> Content? {
         switch self {
         case .movie(let movieDTO):
             return movieDTO.toEntity()
@@ -82,16 +82,18 @@ struct MovieDTO: Codable {
         case voteCount = "vote_count"
     }
     
-    func toEntity() -> Movie {
-        return .init(id: id ?? -1,
+    func toEntity() -> Content? {
+        guard let id = id else { return nil }
+        
+        return .init(id: id,
+                     mediaType: .movie,
                      adult: adult,
-                     mediaType: mediaType, title: title,
+                     title: title,
                      originalTitle: originalTitle,
                      overview: overview,
                      posterPath: posterPath,
                      popularity: popularity,
                      releaseDate: releaseDate,
-                     video: video,
                      voteAverage: voteAverage,
                      voteCount: voteCount)
     }
@@ -127,15 +129,18 @@ struct TvDTO: Codable {
         case originCountry = "origin_country"
     }
     
-    func toEntity() -> Tv {
-        return .init(id: id ?? -1,
+    func toEntity() -> Content? {
+        guard let id = id else { return nil }
+
+        return .init(id: id,
+                     mediaType: .tv,
                      adult: adult,
-                     mediaType: mediaType, name: name,
-                     originalName: originalName,
+                     title: name,
+                     originalTitle: originalName,
                      overview: overview,
                      posterPath: posterPath,
                      popularity: popularity,
-                     firstAirDate: firstAirDate,
+                     releaseDate: firstAirDate,
                      voteAverage: voteAverage,
                      voteCount: voteCount)
     }

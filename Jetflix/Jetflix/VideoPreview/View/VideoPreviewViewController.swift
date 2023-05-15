@@ -12,7 +12,7 @@ class VideoPreviewViewController: UIViewController {
 
     //MARK: - Properties
     private let repository = ContentRepository()
-    var content: Contentable?
+    var content: Content?
     
     //MARK: - Views
     private let titleLabel: UILabel = {
