@@ -7,12 +7,9 @@
 
 import UIKit
 import WebKit
+import Combine
 
 class VideoPreviewViewController: UIViewController {
-
-    //MARK: - Properties
-    private let repository = ContentRepository()
-    var content: Content?
     
     //MARK: - Views
     private let titleLabel: UILabel = {
@@ -54,13 +51,36 @@ class VideoPreviewViewController: UIViewController {
         return webView
     }()
     
+    
+    //MARK: - Properties
+    private var viewModel = VideoPreviewViewModel(youtubeRepository: YoutubeRepository())
+    var content: Content?
+    private var cancellables: Set<AnyCancellable> = []
+    
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
         
-        fetchVideoFromYoutube()
+        fetchTrailerMovie()
+    }
+    
+    private func bind() {
+        viewModel.$trailerVideoElement
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] trailerVideoElement in
+                guard let self = self,
+                      let content = self.content,
+                      let trailerVideoElement = trailerVideoElement else { return }
+                
+                let videoPreview = VideoPreview(title: content.displayTitle,
+                                                youtubeView: trailerVideoElement,
+                                                titleOverview: content.displayOverView)
+                configure(with: videoPreview)
+            }
+            .store(in: &cancellables)
     }
  
     //MARK: - Methods
@@ -106,19 +126,13 @@ class VideoPreviewViewController: UIViewController {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
-    private func fetchVideoFromYoutube() {
-        Task {
-            guard let content = content,
-                  let videoElement = try? await repository.getMovieFromYoutube(with: content.displayTitle + " trailer") else { return }
-            
-            let videoPreview = VideoPreview(title: content.displayTitle,
-                                            youtubeView: videoElement,
-                                            titleOverview: content.displayOverView)
-            configure(with: videoPreview)
-        }
+    private func fetchTrailerMovie() {
+        guard let content = content else { return }
+        
+        viewModel.action(.getMovieTrailer(content.displayTitle))
     }
     
-    func configure(with model: VideoPreview) {
+    private func configure(with model: VideoPreview) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
         

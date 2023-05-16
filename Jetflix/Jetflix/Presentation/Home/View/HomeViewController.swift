@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 enum Sections: Int {
     case TrendingMovies
@@ -18,6 +19,13 @@ enum Sections: Int {
 class HomeViewController: UIViewController {
 
     //MARK: - Views
+    private var headerView: PosterHeaderUIView = {
+        let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0,
+                                                          width: UIScreen.main.bounds.width,
+                                                          height: UIScreen.main.bounds.height * 0.65))
+        return headerView
+    }()
+    
     private let homeFeedTable: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .systemBackground
@@ -27,18 +35,18 @@ class HomeViewController: UIViewController {
         return tableView
     }()
     
-    private var headerView: PosterHeaderUIView?
     
     //MARK: - Properties
-    let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
-    private let repository = ContentRepository()
-    private var randomTrendingMovie: Content?
+    private let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
+    private let viewModel = HomeViewModel(contentRepository: ContentRepository())
+    private var cancellable: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
@@ -50,16 +58,32 @@ class HomeViewController: UIViewController {
         homeFeedTable.frame = view.bounds
     }
     
+    private func bind() {
+        viewModel.$randomTrendingContent
+            .receive(on: RunLoop.main)
+            .sink { [weak self] randomContent in
+                guard let randomContent = randomContent else { return }
+                
+                self?.headerView.configure(with: randomContent)
+            }
+            .store(in: &cancellable)
+    }
+    
     //MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
+        
+        homeFeedTable.tableHeaderView = headerView
         view.addSubview(homeFeedTable)
+        Task {
+            do {
+                try await viewModel.action(.getRandomTrendingContent)
+            } catch {
+                //todo: 기본 이미지 추가해서 에러 핸들링
+            }
+        }
         
         configurationNavbar()
-        
-        headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
-        configurePosterHeaderView()
-        homeFeedTable.tableHeaderView = headerView
     }
     
     private func configurationNavbar() {
@@ -83,16 +107,6 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
     }
-    
-    private func configurePosterHeaderView() {
-        Task {
-            guard let movies = try? await repository.getContents(type: .trending(.movie)),
-                  let randomTrendingMovie = movies.randomElement() else { return }
-            
-            self.randomTrendingMovie = randomTrendingMovie
-            headerView?.configure(with: randomTrendingMovie)
-        }
-    }
 }
 
 //MARK: - UITableViewDelegate
@@ -103,22 +117,22 @@ extension HomeViewController: UITableViewDelegate {
         }
                 
         Task {
-            let apiType: APIType
+            let contentType: ContentType
             switch indexPath.section {
             case Sections.TrendingMovies.rawValue:
-                apiType = .trending(.movie)
+                contentType = .trending(.movie)
             case Sections.TrendingTv.rawValue:
-                apiType = .trending(.tv)
+                contentType = .trending(.tv)
             case Sections.Popular.rawValue:
-                apiType = .popular
+                contentType = .popular
             case Sections.Upcoming.rawValue:
-                apiType = .upcoming
+                contentType = .upcoming
             case Sections.TopRated.rawValue:
-                apiType = .topRated
+                contentType = .topRated
             default: return
             }
 
-            let contents = try? await repository.getContents(type: apiType)
+            let contents = try? await viewModel.action(.getContents(contentType)).value as? [Content]
             cell.configure(with: contents ?? [])
         }
         
@@ -178,11 +192,7 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
     
     func collectionViewTableViewCellDidClickDownload(content: Content) {
         Task {
-            do {
-                try await repository.saveWith(content: content)
-            } catch {
-                print(error.localizedDescription)
-            }
+            try? await viewModel.action(.save(content))
         }
     }
 }

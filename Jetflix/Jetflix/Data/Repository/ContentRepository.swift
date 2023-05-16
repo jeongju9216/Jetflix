@@ -14,10 +14,10 @@ final class ContentRepository: ContentRepositoryProtocol {
 
 //MARK: - Fetch TBMS Data
 extension ContentRepository {
-    func getContents(type: APIType) async throws -> [Content] {
+    func getContents(type: ContentType) async throws -> [Content] {
         switch type {
-        case .trending(let contentType):
-            switch contentType {
+        case .trending(let mediaType):
+            switch mediaType {
             case .movie:
                 return try await apiCaller.getTrendingContent(type: .movie)
             case .tv:
@@ -40,23 +40,19 @@ extension ContentRepository {
     func search(with query: String) async throws -> [Content] {
         return try await apiCaller.search(with: query)
     }
-    
-    func getMovieFromYoutube(with query: String) async throws -> VideoElement {
-        return try await apiCaller.getMovieFromYoutube(with: query)
-    }
 }
 
 //MARK: - CoreData
 extension ContentRepository {
-    func saveWith(content: Content) async throws {
-        try await contentStorage.downloadWith(model: content)
+    func saveWith(content: Content) throws {
+        try contentStorage.downloadWith(model: content)
     }
     
-    func fetchDownloadsContents() async throws -> [Content] {
-        try await contentStorage.fetchContentsFromCoreData()
+    func fetchDownloadsContents() throws -> [Content] {
+        try contentStorage.fetchContentsFromCoreData()
     }
     
-    func delete(content: Content) async throws {
-        try await contentStorage.delete(model: content)
+    func delete(content: Content) throws {
+        try contentStorage.delete(model: content)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class DownloadsViewController: UIViewController {
 
@@ -17,14 +18,15 @@ class DownloadsViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    private var contents: [Content] = []
-    private let repository = ContentRepository()
+    private var viewModel = DownloadViewModel(contentRepository: ContentRepository())
+    private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
         
         downloadTable.delegate = self
         downloadTable.dataSource = self
@@ -41,6 +43,15 @@ class DownloadsViewController: UIViewController {
         downloadTable.frame = view.bounds
     }
     
+    private func bind() {
+        viewModel.$contents
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] downloads in
+                self?.downloadTable.reloadData()
+            }
+            .store(in: &cancellables)
+    }
+    
     //MARK: - Methods
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -53,14 +64,7 @@ class DownloadsViewController: UIViewController {
     }
     
     private func fetchDownloadsContents() {
-        Task {
-            do {
-                contents = try await repository.fetchDownloadsContents()
-                downloadTable.reloadData()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        viewModel.action(.fetchDownloadContents)
     }
 }
 
@@ -71,7 +75,7 @@ extension DownloadsViewController: UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(with: contents[indexPath.row])
+        cell.configure(with: viewModel.contents[indexPath.row])
         
         return cell
     }
@@ -83,7 +87,7 @@ extension DownloadsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let content = contents[indexPath.row]
+        let content = viewModel.contents[indexPath.row]
         
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = content
@@ -93,17 +97,7 @@ extension DownloadsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            Task {
-                do {
-                    let content = contents[indexPath.row]
-                    try await repository.delete(content: content)
-                    
-                    contents.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
+            viewModel.action(.delete(indexPath.row))
         default: break
         }
     }
@@ -112,6 +106,6 @@ extension DownloadsViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource
 extension DownloadsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contents.count
+        return viewModel.contents.count
     }
 }

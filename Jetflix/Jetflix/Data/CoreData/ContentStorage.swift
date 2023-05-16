@@ -12,7 +12,7 @@ struct ContentStorage {
     typealias EntityType = ContentEntity
     private let entityName = "ContentEntity"
     
-    func downloadWith(model: Content) async throws {
+    func downloadWith(model: Content) throws {
         let context = CoreDataStorage.shared.context
         
         let filter = filteredRequestWith(id: model.id)
@@ -27,7 +27,7 @@ struct ContentStorage {
         }
     }
     
-    func fetchContentsFromCoreData() async throws -> [Content] {
+    func fetchContentsFromCoreData() throws -> [Content] {
         let context = CoreDataStorage.shared.context
         
         let request: NSFetchRequest<EntityType> = EntityType.fetchRequest()
@@ -36,7 +36,7 @@ struct ContentStorage {
         return contentEntities.compactMap { toModel($0) }
     }
     
-    func delete(model: Content) async throws {
+    func delete(model: Content) throws {
         let context = CoreDataStorage.shared.context
         
         let filter = filteredRequestWith(id: model.id)

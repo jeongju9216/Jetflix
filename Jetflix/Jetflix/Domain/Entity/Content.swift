@@ -7,14 +7,22 @@
 
 import Foundation
 
-enum ContentType: String {
+enum ContentType {
+    case trending(MediaType)
+    case upcoming
+    case popular
+    case topRated
+    case discover
+}
+
+enum MediaType: String {
     case movie
     case tv
 }
 
 struct Content: Hashable {
     let id: Int
-    let mediaType: ContentType
+    let mediaType: MediaType
     let adult: Bool?
     let title: String?
     let originalTitle: String?
