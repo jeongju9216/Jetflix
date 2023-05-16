@@ -12,7 +12,6 @@ enum HomeViewModelActions {
     case getContents(ContentType)
     case getRandomTrendingContent
     case save(Content)
-    case delete(Content)
 }
 
 enum HomeViewModelActionsOutput {
@@ -52,8 +51,6 @@ final class HomeViewModel {
             return .none(())
         case .save(let content):
             return .isSuccess(save(content: content))
-        case .delete(let content):
-            return .isSuccess(delete(content: content))
         }
     }
 }
@@ -73,15 +70,6 @@ extension HomeViewModel {
     private func save(content: Content) -> Bool {
         do {
             try contentRepository.saveWith(content: content)
-            return true
-        } catch {
-            return false
-        }
-    }
-    
-    private func delete(content: Content) -> Bool {
-        do {
-            try contentRepository.delete(content: content)
             return true
         } catch {
             return false
