@@ -10,6 +10,12 @@ Netflix 클론 코딩(https://youtu.be/LWGr9fQR498)
 블로그 포스팅에는 이런 과정에서 느낀점을 작성했습니다.  
 PR 탭에서 에피소드별로 확인할 수 있습니다.  
 
+[1. 구현](https://github.com/jeongju9216/Jetflix/main/README.md#구현)  
+[2. 리팩토링](https://github.com/jeongju9216/Jetflix/edit/main/README.md#리팩토링)
+
+<br></br>
+
+# 구현
 ## 1. 기초 UI 구현 (에피소드 1, 2, 3, 4)  
 블로그 포스팅: https://jeong9216.tistory.com/619  
 - TabBar 생성
@@ -41,3 +47,11 @@ PR 탭에서 에피소드별로 확인할 수 있습니다.
 - CollectionView UIContextMenuConfiguration 구현
 - CoreData를 이용한 엔티티 save, fetch, delete
 
+<br></br>
+
+# 리팩토링
+## 1. ViewModel 개선
+블로그 포스팅: https://jeong9216.tistory.com/623  
+- MVC 구조를 MVVM으로 변경
+- Enum을 이용해 ViewModelActions 정의
+- Enum을 이용해 API 콜 메서드 정리
