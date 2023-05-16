@@ -111,6 +111,11 @@ class SearchViewController: UIViewController {
             }
     }
     
+    private func cancelSearch() {
+        cancelTextInputTimer()
+        (searchController.searchResultsController as? SearchResultsViewController)?.clearData()
+    }
+    
     private func presentVideoPreivewWith(content: Content) {
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = content
@@ -152,6 +157,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text,
                 !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            cancelSearch()
             return
         }
         
@@ -164,6 +170,7 @@ extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            cancelSearch()
             return
         }
         

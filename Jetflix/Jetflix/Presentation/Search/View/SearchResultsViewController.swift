@@ -45,11 +45,18 @@ class SearchResultsViewController: UIViewController {
         searchResultsCollectionView.frame = view.bounds
     }
     
-    //MARK: - Methods
+    //MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
         view.addSubview(searchResultsCollectionView)
+    }
+    
+    func clearData() {
+        contents.removeAll()
+        DispatchQueue.main.async { [weak self] in
+            self?.searchResultsCollectionView.reloadData()
+        }
     }
 }
 
