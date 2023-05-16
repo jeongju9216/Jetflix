@@ -12,8 +12,18 @@ final class MainTabBarViewController: UITabBarController {
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemYellow
         
+        setupUI()
+        configurationViewControllers()
+    }
+    
+    //MARK: - Setup
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        tabBar.tintColor = .label
+    }
+    
+    private func configurationViewControllers() {
         let homeVC = UINavigationController(rootViewController: HomeViewController())
         homeVC.tabBarItem.image = UIImage(systemName: "house")
         homeVC.title = "Home"
@@ -29,9 +39,7 @@ final class MainTabBarViewController: UITabBarController {
         let downloadVC = UINavigationController(rootViewController: DownloadsViewController())
         downloadVC.tabBarItem.image = UIImage(systemName: "arrow.down.to.line")
         downloadVC.title = "Downloads"
-        
-        tabBar.tintColor = .label
-        
+
         setViewControllers([homeVC, upcomingVC, searchVC, downloadVC], animated: false)
     }
 }

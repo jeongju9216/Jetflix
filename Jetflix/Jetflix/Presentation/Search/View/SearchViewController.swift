@@ -34,17 +34,11 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        title = "Top Search"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-
-        view.addSubview(discoverTable)
+        setupUI()
+        
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
-        navigationItem.searchController = searchController
-        navigationController?.navigationBar.tintColor = .label
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
@@ -58,10 +52,23 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Methods
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(discoverTable)
+        
+        title = "Top Search"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
     private func fetchData() {
         Task {
             do {
-                contents = try await repository.getDiscoverMovies()
+                contents = try await repository.getContents(type: .discover)
                 discoverTable.reloadData()
             } catch {
                 print(error)
@@ -79,6 +86,12 @@ class SearchViewController: UIViewController {
                 resultsController.searchResultsCollectionView.reloadData()
             }
         }
+    }
+    
+    private func presentVideoPreivewWith(content: Content) {
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = content
+        navigationController?.present(videoPreviewVC, animated: true)
     }
 }
 
@@ -101,11 +114,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let movie = contents[indexPath.row]
-        
-        let videoPreviewVC = VideoPreviewViewController()
-        videoPreviewVC.content = movie
-        navigationController?.present(videoPreviewVC, animated: true)
+        presentVideoPreivewWith(content: contents[indexPath.row])
     }
 }
 
@@ -143,8 +152,6 @@ extension SearchViewController: UISearchResultsUpdating {
 
 extension SearchViewController: SearchResultsViewControllerDelegate {
     func searchResultsViewControllerDidTapItem(_ content: Content) {
-        let videoPreviewVC = VideoPreviewViewController()
-        videoPreviewVC.content = content
-        navigationController?.present(videoPreviewVC, animated: true)
+        presentVideoPreivewWith(content: content)
     }
 }

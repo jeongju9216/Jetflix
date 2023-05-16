@@ -58,6 +58,13 @@ class VideoPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupUI()
+        
+        fetchVideoFromYoutube()
+    }
+ 
+    //MARK: - Methods
+    private func setupUI() {
         view.backgroundColor = .systemBackground
         
         view.addSubview(webView)
@@ -65,19 +72,9 @@ class VideoPreviewViewController: UIViewController {
         view.addSubview(overviewLabel)
         view.addSubview(downloadButton)
         configureConstraints()
-        
-        Task {
-            guard let content = content,
-                  let videoElement = try? await repository.getMovieFromYoutube(with: content.displayTitle + " trailer") else { return }
-            
-            print("videoElement id: \(videoElement.id)")
-            let videoPreview = VideoPreview(title: content.displayTitle, youtubeView: videoElement, titleOverview: content.displayOverView)
-            configure(with: videoPreview)
-        }
     }
- 
-    //MARK: - Methods
-    func configureConstraints() {
+    
+    private func configureConstraints() {
         let webViewConstraints = [
             webView.widthAnchor.constraint(equalToConstant: view.bounds.width),
             webView.heightAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 9 / 16),
@@ -109,6 +106,17 @@ class VideoPreviewViewController: UIViewController {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
+    private func fetchVideoFromYoutube() {
+        Task {
+            guard let content = content,
+                  let videoElement = try? await repository.getMovieFromYoutube(with: content.displayTitle + " trailer") else { return }
+            
+            let videoPreview = VideoPreview(title: content.displayTitle,
+                                            youtubeView: videoElement,
+                                            titleOverview: content.displayOverView)
+            configure(with: videoPreview)
+        }
+    }
     
     func configure(with model: VideoPreview) {
         titleLabel.text = model.title

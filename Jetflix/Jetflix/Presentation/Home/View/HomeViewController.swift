@@ -38,18 +38,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        view.addSubview(homeFeedTable)
+        setupUI()
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
-        
-        configurationNavbar()
-        
-        headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
-        configurePosterHeaderView()
-        
-        homeFeedTable.tableHeaderView = headerView
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,6 +51,17 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - Setup
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(homeFeedTable)
+        
+        configurationNavbar()
+        
+        headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height * 0.65))
+        configurePosterHeaderView()
+        homeFeedTable.tableHeaderView = headerView
+    }
+    
     private func configurationNavbar() {
         var image = UIImage(named: "LogoImage")
         //iOS 시스템에서 색상을 변경하는 것을 막고, 항상 이미지 본연의 색상으로 출력하게 함
@@ -83,15 +86,12 @@ class HomeViewController: UIViewController {
     
     private func configurePosterHeaderView() {
         Task {
-            guard let movies = try? await repository.getTrendingMovie(),
-                  let randomTrendingMovie = movies.randomElement() else {
-                return
-            }
+            guard let movies = try? await repository.getContents(type: .trending(.movie)),
+                  let randomTrendingMovie = movies.randomElement() else { return }
             
             self.randomTrendingMovie = randomTrendingMovie
             headerView?.configure(with: randomTrendingMovie)
         }
-
     }
 }
 
@@ -101,34 +101,25 @@ extension HomeViewController: UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
             return UITableViewCell()
         }
-        
-        switch indexPath.section {
-        case Sections.TrendingMovies.rawValue:
-            Task {
-                let movies = try? await repository.getTrendingMovie()
-                cell.configure(with: movies ?? [])
+                
+        Task {
+            let apiType: APIType
+            switch indexPath.section {
+            case Sections.TrendingMovies.rawValue:
+                apiType = .trending(.movie)
+            case Sections.TrendingTv.rawValue:
+                apiType = .trending(.tv)
+            case Sections.Popular.rawValue:
+                apiType = .popular
+            case Sections.Upcoming.rawValue:
+                apiType = .upcoming
+            case Sections.TopRated.rawValue:
+                apiType = .topRated
+            default: return
             }
-        case Sections.TrendingTv.rawValue:
-            Task {
-                let tvs = try? await repository.getTrendingTv()
-                cell.configure(with: tvs ?? [])
-            }
-        case Sections.Popular.rawValue:
-            Task {
-                let movies = try? await repository.getPopularMovies()
-                cell.configure(with: movies ?? [])
-            }
-        case Sections.Upcoming.rawValue:
-            Task {
-                let movies = try? await repository.getUpcomingMovies()
-                cell.configure(with: movies ?? [])
-            }
-        case Sections.TopRated.rawValue:
-            Task {
-                let movies = try? await repository.getTopRatedMovies()
-                cell.configure(with: movies ?? [])
-            }
-        default: break
+
+            let contents = try? await repository.getContents(type: apiType)
+            cell.configure(with: contents ?? [])
         }
         
         cell.delegate = self
@@ -188,7 +179,7 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
     func collectionViewTableViewCellDidClickDownload(content: Content) {
         Task {
             do {
-                try await repository.saveContentWith(content: content)
+                try await repository.saveWith(content: content)
             } catch {
                 print(error.localizedDescription)
             }

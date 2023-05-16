@@ -11,6 +11,7 @@ import Kingfisher
 class ContentCollectionViewCell: UICollectionViewCell {
     static let identifier = "ContentCollectionViewCell"
     
+    //MARK: - Views
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         
@@ -20,6 +21,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -36,11 +38,14 @@ class ContentCollectionViewCell: UICollectionViewCell {
         posterImageView.frame = contentView.bounds
     }
     
+    //MARK: - Methods
     func configure(with urlString: String) {
-//        print("\(#function) urlString: \(urlString)")
-//        posterImageView.setImageUsingJIC(url: "https://image.tmdb.org/t/p/w500" + urlString)
         guard let url = URL(string: urlString) else { return }
         
         posterImageView.kf.setImage(with: url)
+    }
+    
+    func cancelDownloadImage() {
+        posterImageView.kf.cancelDownloadTask()
     }
 }
