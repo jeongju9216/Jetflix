@@ -13,7 +13,6 @@ protocol ContentRepositoryProtocol {
     
     //Search
     func search(with query: String) async throws -> [Content]
-    func getMovieFromYoutube(with query: String) async throws -> VideoElement
     
     //CoreData
     func saveWith(content: Content) throws

@@ -40,10 +40,6 @@ extension ContentRepository {
     func search(with query: String) async throws -> [Content] {
         return try await apiCaller.search(with: query)
     }
-    
-    func getMovieFromYoutube(with query: String) async throws -> VideoElement {
-        return try await apiCaller.getMovieFromYoutube(with: query)
-    }
 }
 
 //MARK: - CoreData
