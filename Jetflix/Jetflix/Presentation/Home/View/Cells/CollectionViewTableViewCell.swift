@@ -80,7 +80,9 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        //todo: 이미지 다운로드 취소
+        guard let cell = cell as? ContentCollectionViewCell else { return }
+        
+        cell.cancelDownloadImage()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -33,9 +33,7 @@ class SearchResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        
-        view.addSubview(searchResultsCollectionView)
+        setupUI()
         
         searchResultsCollectionView.delegate = self
         searchResultsCollectionView.dataSource = self
@@ -45,6 +43,13 @@ class SearchResultsViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         searchResultsCollectionView.frame = view.bounds
+    }
+    
+    //MARK: - Methods
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(searchResultsCollectionView)
     }
 }
 

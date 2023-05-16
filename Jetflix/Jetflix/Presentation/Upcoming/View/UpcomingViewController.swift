@@ -24,12 +24,8 @@ class UpcomingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        title = "Upcoming"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        setupUI()
         
-        view.addSubview(upcomingTable)
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         
@@ -43,10 +39,20 @@ class UpcomingViewController: UIViewController {
     }
     
     //MARK: - Methods
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        
+        title = "Upcoming"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+
+        view.addSubview(upcomingTable)
+    }
+    
     private func fetchUpcoming() {
         Task {
             do {
-                contents = try await repository.getUpcomingMovies()
+                contents = try await repository.getContents(type: .upcoming)
                 upcomingTable.reloadData()
             } catch {
                 print(error)

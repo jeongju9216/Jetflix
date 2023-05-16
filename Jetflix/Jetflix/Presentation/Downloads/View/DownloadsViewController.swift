@@ -17,19 +17,14 @@ class DownloadsViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    var contents: [Content] = []
-    let repository = ContentRepository()
+    private var contents: [Content] = []
+    private let repository = ContentRepository()
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        title = "Downloads"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
-        view.addSubview(downloadTable)
+        setupUI()
         
         downloadTable.delegate = self
         downloadTable.dataSource = self
@@ -47,6 +42,16 @@ class DownloadsViewController: UIViewController {
     }
     
     //MARK: - Methods
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        
+        title = "Downloads"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        
+        view.addSubview(downloadTable)
+    }
+    
     private func fetchDownloadsContents() {
         Task {
             do {
@@ -91,7 +96,7 @@ extension DownloadsViewController: UITableViewDelegate {
             Task {
                 do {
                     let content = contents[indexPath.row]
-                    try await repository.deleteContentWith(content: content)
+                    try await repository.delete(content: content)
                     
                     contents.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
