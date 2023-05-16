@@ -10,8 +10,11 @@ Netflix 클론 코딩(https://youtu.be/LWGr9fQR498)
 블로그 포스팅에는 이런 과정에서 느낀점을 작성했습니다.  
 PR 탭에서 에피소드별로 확인할 수 있습니다.  
 
-[1. 구현](https://github.com/jeongju9216/Jetflix/main/README.md#구현)  
-[2. 리팩토링](https://github.com/jeongju9216/Jetflix/edit/main/README.md#리팩토링)
+<br></br>
+
+바로 이동하기  
+#### [1. 구현](https://github.com/jeongju9216/Jetflix/blob/main/README.md#구현)  
+#### [2. 리팩토링](https://github.com/jeongju9216/Jetflix/blob/main/README.md#리팩토링)
 
 <br></br>
 
