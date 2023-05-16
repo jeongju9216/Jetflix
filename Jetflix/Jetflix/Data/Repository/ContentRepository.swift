@@ -10,6 +10,7 @@ import Foundation
 final class ContentRepository: ContentRepositoryProtocol {
     private let apiCaller = APICaller.shared
     private let contentStorage = ContentStorage()
+    private var searchMemoryCache: [String: [Content]] = [:]
 }
 
 //MARK: - Fetch TBMS Data
@@ -38,7 +39,14 @@ extension ContentRepository {
 //MARK: - Search
 extension ContentRepository {
     func search(with query: String) async throws -> [Content] {
-        return try await apiCaller.search(with: query)
+        if let cache = searchMemoryCache[query] {
+            return cache
+        }
+        
+        let contents = try await apiCaller.search(with: query)
+        searchMemoryCache[query] = contents
+        
+        return contents
     }
 }
 
