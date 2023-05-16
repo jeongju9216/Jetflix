@@ -40,6 +40,9 @@
 		9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */; };
 		9BFDF71F2A134D8B005E3953 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */; };
 		9BFDF7242A135837005E3953 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7232A135837005E3953 /* SearchViewModel.swift */; };
+		9BFDF7272A135D1C005E3953 /* VideoPreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7262A135D1C005E3953 /* VideoPreviewViewModel.swift */; };
+		9BFDF7292A135D51005E3953 /* YoutubeRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */; };
+		9BFDF72B2A135D8B005E3953 /* YoutubeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF72A2A135D8B005E3953 /* YoutubeRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
 		9BFDF7232A135837005E3953 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		9BFDF7262A135D1C005E3953 /* VideoPreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewModel.swift; sourceTree = "<group>"; };
+		9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeRepositoryProtocol.swift; sourceTree = "<group>"; };
+		9BFDF72A2A135D8B005E3953 /* YoutubeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */,
+				9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -342,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811EFF2A0FC3B4008A660E /* ContentRepository.swift */,
+				9BFDF72A2A135D8B005E3953 /* YoutubeRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -383,6 +391,7 @@
 		9BFDF70A2A10F0E4005E3953 /* VideoPreview */ = {
 			isa = PBXGroup;
 			children = (
+				9BFDF7252A135D12005E3953 /* ViewModel */,
 				9BFDF70B2A10F0F2005E3953 /* View */,
 			);
 			path = VideoPreview;
@@ -418,6 +427,14 @@
 			isa = PBXGroup;
 			children = (
 				9BFDF7232A135837005E3953 /* SearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		9BFDF7252A135D12005E3953 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF7262A135D1C005E3953 /* VideoPreviewViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -558,8 +575,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BFDF7292A135D51005E3953 /* YoutubeRepositoryProtocol.swift in Sources */,
 				9B811ED72A0F5803008A660E /* SearchViewController.swift in Sources */,
 				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
+				9BFDF72B2A135D8B005E3953 /* YoutubeRepository.swift in Sources */,
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
 				9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */,
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
@@ -585,6 +604,7 @@
 				9BFDF7242A135837005E3953 /* SearchViewModel.swift in Sources */,
 				9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
+				9BFDF7272A135D1C005E3953 /* VideoPreviewViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
