@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class SearchViewController: UIViewController {
 
@@ -27,14 +28,16 @@ class SearchViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    let repository = ContentRepository()
-    private var contents: [Content] = []
+    private var viewModel = SearchViewModel(contentRepository: ContentRepository())
+    private var cancellables: Set<AnyCancellable> = []
+    private var textInputTimerCancellable: Cancellable?
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
         
         discoverTable.delegate = self
         discoverTable.dataSource = self
@@ -42,13 +45,36 @@ class SearchViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
-        fetchData()
+        fetchDiscoverData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         discoverTable.frame = view.bounds
+    }
+    
+    private func bind() {
+        viewModel.$contents
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] contents in
+                self?.discoverTable.reloadData()
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$searchResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] searchResult in
+                guard let self = self,
+                      let resultsController = self.searchController.searchResultsController as? SearchResultsViewController else {
+                    return
+                }
+                
+                resultsController.delegate = self
+                resultsController.contents = searchResult
+                resultsController.searchResultsCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     //MARK: - Methods
@@ -65,27 +91,24 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    private func fetchData() {
+    private func fetchDiscoverData() {
         Task {
-            do {
-                contents = try await repository.getContents(type: .discover)
-                discoverTable.reloadData()
-            } catch {
-                print(error)
-            }
+            viewModel.action(.fetchContents)
         }
     }
     
     private func search(with query: String) {
-        Task {
-            if let searchResults = try? await repository.search(with: query),
-               let resultsController = searchController.searchResultsController as? SearchResultsViewController {
+        cancelTextInputTimer()
+        
+        textInputTimerCancellable = Timer.publish(every: 1.0, on: .main, in: .default)
+            .autoconnect()
+            .first()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
                 
-                resultsController.delegate = self
-                resultsController.contents = searchResults
-                resultsController.searchResultsCollectionView.reloadData()
+                print("Search: \(query)")
+                self.viewModel.action(.search(query))
             }
-        }
     }
     
     private func presentVideoPreivewWith(content: Content) {
@@ -102,7 +125,7 @@ extension SearchViewController: UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(with: contents[indexPath.row])
+        cell.configure(with: viewModel.contents[indexPath.row])
 
         return cell
     }
@@ -114,39 +137,41 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        presentVideoPreivewWith(content: contents[indexPath.row])
+        presentVideoPreivewWith(content: viewModel.contents[indexPath.row])
     }
 }
 
 //MARK: - UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contents.count
+        return viewModel.contents.count
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+                !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-
+        
         search(with: query)
     }
 }
 
 //MARK: - UISearchResultsUpdating
 extension SearchViewController: UISearchResultsUpdating {
-    //todo: 타이머를 이용한 검색 최적화
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              query.trimmingCharacters(in: .whitespaces).count >= 3 else {
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
         
         search(with: query)
+    }
+    
+    private func cancelTextInputTimer() {
+        textInputTimerCancellable?.cancel()
     }
 }
 

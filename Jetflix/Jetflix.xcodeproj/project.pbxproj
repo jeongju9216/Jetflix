@@ -39,6 +39,7 @@
 		9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7182A11EE26005E3953 /* ContentStorage.swift */; };
 		9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */; };
 		9BFDF71F2A134D8B005E3953 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */; };
+		9BFDF7242A135837005E3953 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7232A135837005E3953 /* SearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		9BFDF7182A11EE26005E3953 /* ContentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStorage.swift; sourceTree = "<group>"; };
 		9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
+		9BFDF7232A135837005E3953 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 		9B811EDD2A0F6658008A660E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				9BFDF7222A135830005E3953 /* ViewModel */,
 				9B811EE22A0F6682008A660E /* View */,
 			);
 			path = Search;
@@ -411,6 +414,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		9BFDF7222A135830005E3953 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF7232A135837005E3953 /* SearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -571,6 +582,7 @@
 				9BFDF6F72A107710005E3953 /* ContentCollectionViewCell.swift in Sources */,
 				9BFDF7142A11E4DF005E3953 /* CoreDataStorage.swift in Sources */,
 				9B811F052A0FC9E2008A660E /* String.swift in Sources */,
+				9BFDF7242A135837005E3953 /* SearchViewModel.swift in Sources */,
 				9B811EF22A0FAF47008A660E /* ContentDTO.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 			);
