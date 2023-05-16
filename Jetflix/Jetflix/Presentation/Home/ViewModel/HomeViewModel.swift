@@ -12,7 +12,6 @@ enum HomeViewModelActions {
     case getContents(ContentType)
     case getRandomTrendingContent
     case save(Content)
-    case fetchDownloadContents
     case delete(Content)
 }
 
@@ -37,8 +36,7 @@ final class HomeViewModel {
     private var contentRepository: ContentRepositoryProtocol
 
     @Published private(set) var randomTrendingContent: Content?
-
-    //MARK: - Init
+    
     init(contentRepository: ContentRepositoryProtocol) {
         self.contentRepository = contentRepository
     }
@@ -54,8 +52,6 @@ final class HomeViewModel {
             return .none(())
         case .save(let content):
             return .isSuccess(save(content: content))
-        case .fetchDownloadContents:
-            return .contents(try fetchDownloadContents())
         case .delete(let content):
             return .isSuccess(delete(content: content))
         }
@@ -72,10 +68,6 @@ extension HomeViewModel {
         Task {
             randomTrendingContent = try? await getContents(type: .trending(.movie)).randomElement()
         }
-    }
-    
-    private func fetchDownloadContents() throws -> [Content] {
-        return try contentRepository.fetchDownloadsContents()
     }
     
     private func save(content: Content) -> Bool {

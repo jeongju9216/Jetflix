@@ -38,6 +38,7 @@
 		9BFDF7172A11E511005E3953 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7152A11E511005E3953 /* CoreData.xcdatamodeld */; };
 		9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7182A11EE26005E3953 /* ContentStorage.swift */; };
 		9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */; };
+		9BFDF71F2A134D8B005E3953 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		9BFDF7162A11E511005E3953 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		9BFDF7182A11EE26005E3953 /* ContentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStorage.swift; sourceTree = "<group>"; };
 		9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,8 +187,8 @@
 		9B811EDC2A0F6656008A660E /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				9B811EE72A0F6DDD008A660E /* ViewModel */,
 				9B811EE02A0F6673008A660E /* View */,
+				9B811EE72A0F6DDD008A660E /* ViewModel */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -202,6 +204,7 @@
 		9B811EDE2A0F665B008A660E /* Upcoming */ = {
 			isa = PBXGroup;
 			children = (
+				9BFDF71D2A134D83005E3953 /* ViewModel */,
 				9B811EE12A0F6681008A660E /* View */,
 			);
 			path = Upcoming;
@@ -400,6 +403,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		9BFDF71D2A134D83005E3953 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF71E2A134D8B005E3953 /* UpcomingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -550,6 +561,7 @@
 				9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */,
 				9BFDF7102A10F270005E3953 /* VideoPreview.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
+				9BFDF71F2A134D8B005E3953 /* UpcomingViewModel.swift in Sources */,
 				9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */,
 				9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */,
 				9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */,

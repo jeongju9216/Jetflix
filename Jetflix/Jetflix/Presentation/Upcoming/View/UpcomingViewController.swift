@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class UpcomingViewController: UIViewController {
 
@@ -17,25 +18,35 @@ class UpcomingViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    var contents: [Content] = []
-    let repository = ContentRepository()
+    private var viewModel = UpcommingViewModel(contentRepository: ContentRepository())
+    private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
         
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         
-        fetchUpcoming()
+        fetchUpcomingContents()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         upcomingTable.frame = view.safeAreaLayoutGuide.layoutFrame
+    }
+    
+    private func bind() {
+        viewModel.$contents
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] contents in
+                self?.upcomingTable.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     //MARK: - Methods
@@ -49,15 +60,8 @@ class UpcomingViewController: UIViewController {
         view.addSubview(upcomingTable)
     }
     
-    private func fetchUpcoming() {
-        Task {
-            do {
-                contents = try await repository.getContents(type: .upcoming)
-                upcomingTable.reloadData()
-            } catch {
-                print(error)
-            }
-        }
+    private func fetchUpcomingContents() {
+        viewModel.action(.fetchContents)
     }
 }
 
@@ -68,7 +72,7 @@ extension UpcomingViewController: UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(with: contents[indexPath.row])
+        cell.configure(with: viewModel.contents[indexPath.row])
         
         return cell
     }
@@ -79,11 +83,9 @@ extension UpcomingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let movie = contents[indexPath.row]
-        
+                
         let videoPreviewVC = VideoPreviewViewController()
-        videoPreviewVC.content = movie
+        videoPreviewVC.content = viewModel.contents[indexPath.row]
         navigationController?.present(videoPreviewVC, animated: true)
     }
 }
@@ -91,6 +93,6 @@ extension UpcomingViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource
 extension UpcomingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contents.count
+        return viewModel.contents.count
     }
 }
