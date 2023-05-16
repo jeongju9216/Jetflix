@@ -37,6 +37,7 @@
 		9BFDF7142A11E4DF005E3953 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7132A11E4DF005E3953 /* CoreDataStorage.swift */; };
 		9BFDF7172A11E511005E3953 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7152A11E511005E3953 /* CoreData.xcdatamodeld */; };
 		9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7182A11EE26005E3953 /* ContentStorage.swift */; };
+		9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		9BFDF7132A11E4DF005E3953 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		9BFDF7162A11E511005E3953 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		9BFDF7182A11EE26005E3953 /* ContentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStorage.swift; sourceTree = "<group>"; };
+		9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 		9B811EE72A0F6DDD008A660E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9BFDF71B2A133EA5005E3953 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				9B811ED72A0F5803008A660E /* SearchViewController.swift in Sources */,
 				9B811EA52A0E6B73008A660E /* MainTabBarViewController.swift in Sources */,
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
+				9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */,
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
 				9B811EFD2A0FBEB9008A660E /* Content.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,

@@ -14,14 +14,6 @@ struct Constants {
     static let youtubeBaseURL = "https://www.googleapis.com/youtube/v3/search"
 }
 
-enum APIType {
-    case trending(ContentType)
-    case upcoming
-    case popular
-    case topRated
-    case discover
-}
-
 enum APIError: Error {
     case urlError
     case failedTargetData
@@ -37,7 +29,7 @@ final class APICaller {
     
     private init() { }
 
-    func getTrendingContent(type: ContentType) async throws -> [Content] {
+    func getTrendingContent(type: MediaType) async throws -> [Content] {
         let urlString = "\(Constants.baseURL)/3/trending/\(type.rawValue)/day?api_key=\(Constants.API_KEY)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
