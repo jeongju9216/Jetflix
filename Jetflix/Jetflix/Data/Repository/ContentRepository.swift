@@ -14,34 +14,24 @@ final class ContentRepository: ContentRepositoryProtocol {
 
 //MARK: - Fetch TBMS Data
 extension ContentRepository {
-    func getTrendingMovie() async throws -> [Content] {
-        let movies: [Content] = try await apiCaller.getTrendingContent(type: .movie)
-        return movies
-    }
-    
-    func getTrendingTv() async throws -> [Content] {
-        let tvs: [Content] = try await apiCaller.getTrendingContent(type: .tv)
-        return tvs
-    }
-    
-    func getUpcomingMovies() async throws -> [Content] {
-        let movies: [Content] = try await apiCaller.getUpcomingMovie()
-        return movies
-    }
-    
-    func getPopularMovies() async throws -> [Content] {
-        let movies: [Content] = try await apiCaller.getPopularMovie()
-        return movies
-    }
-    
-    func getTopRatedMovies() async throws -> [Content] {
-        let movies: [Content] = try await apiCaller.getTopRatedMovie()
-        return movies
-    }
-    
-    func getDiscoverMovies() async throws -> [Content] {
-        let movies: [Content] = try await apiCaller.getDiscoverMovie()
-        return movies
+    func getContents(type: APIType) async throws -> [Content] {
+        switch type {
+        case .trending(let contentType):
+            switch contentType {
+            case .movie:
+                return try await apiCaller.getTrendingContent(type: .movie)
+            case .tv:
+                return try await apiCaller.getTrendingContent(type: .tv)
+            }
+        case .upcoming:
+            return try await apiCaller.getUpcomingMovie()
+        case .popular:
+            return try await apiCaller.getPopularMovie()
+        case .topRated:
+            return try await apiCaller.getTopRatedMovie()
+        case .discover:
+            return try await apiCaller.getDiscoverMovie()
+        }
     }
 }
 
@@ -58,7 +48,7 @@ extension ContentRepository {
 
 //MARK: - CoreData
 extension ContentRepository {
-    func saveContentWith(content: Content) async throws {
+    func saveWith(content: Content) async throws {
         try await contentStorage.downloadWith(model: content)
     }
     
@@ -66,7 +56,7 @@ extension ContentRepository {
         try await contentStorage.fetchContentsFromCoreData()
     }
     
-    func deleteContentWith(content: Content) async throws {
+    func delete(content: Content) async throws {
         try await contentStorage.delete(model: content)
     }
 }
