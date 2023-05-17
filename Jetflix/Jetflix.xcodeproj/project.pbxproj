@@ -44,6 +44,10 @@
 		9BFDF7292A135D51005E3953 /* YoutubeRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */; };
 		9BFDF72B2A135D8B005E3953 /* YoutubeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF72A2A135D8B005E3953 /* YoutubeRepository.swift */; };
 		9BFDF72E2A1360CE005E3953 /* DownloadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF72D2A1360CE005E3953 /* DownloadViewModel.swift */; };
+		9BFDF7382A149626005E3953 /* ContentUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7372A149626005E3953 /* ContentUseCaseProtocol.swift */; };
+		9BFDF73B2A1496EB005E3953 /* ContentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF73A2A1496EB005E3953 /* ContentUseCase.swift */; };
+		9BFDF73F2A14A496005E3953 /* YoutubeUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF73E2A14A496005E3953 /* YoutubeUseCaseProtocol.swift */; };
+		9BFDF7412A14A4DC005E3953 /* YoutubeUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFDF7402A14A4DC005E3953 /* YoutubeUseCaseProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +108,10 @@
 		9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeRepositoryProtocol.swift; sourceTree = "<group>"; };
 		9BFDF72A2A135D8B005E3953 /* YoutubeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeRepository.swift; sourceTree = "<group>"; };
 		9BFDF72D2A1360CE005E3953 /* DownloadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewModel.swift; sourceTree = "<group>"; };
+		9BFDF7372A149626005E3953 /* ContentUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUseCaseProtocol.swift; sourceTree = "<group>"; };
+		9BFDF73A2A1496EB005E3953 /* ContentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUseCase.swift; sourceTree = "<group>"; };
+		9BFDF73E2A14A496005E3953 /* YoutubeUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeUseCaseProtocol.swift; sourceTree = "<group>"; };
+		9BFDF7402A14A4DC005E3953 /* YoutubeUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeUseCaseProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				9B811EF62A0FBC0A008A660E /* Entity */,
+				9BFDF7392A1496DB005E3953 /* UseCase */,
 				9B811EF72A0FBC1F008A660E /* Interface */,
 			);
 			path = Domain;
@@ -342,8 +351,8 @@
 		9B811EF72A0FBC1F008A660E /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */,
-				9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */,
+				9BFDF7362A1495F2005E3953 /* UseCase */,
+				9BFDF7352A1495EC005E3953 /* Repository */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -448,6 +457,33 @@
 				9BFDF72D2A1360CE005E3953 /* DownloadViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		9BFDF7352A1495EC005E3953 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				9B811F012A0FC3BF008A660E /* ContentRepositoryProtocol.swift */,
+				9BFDF7282A135D51005E3953 /* YoutubeRepositoryProtocol.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		9BFDF7362A1495F2005E3953 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF7372A149626005E3953 /* ContentUseCaseProtocol.swift */,
+				9BFDF73E2A14A496005E3953 /* YoutubeUseCaseProtocol.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		9BFDF7392A1496DB005E3953 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				9BFDF73A2A1496EB005E3953 /* ContentUseCase.swift */,
+				9BFDF7402A14A4DC005E3953 /* YoutubeUseCaseProtocol.swift */,
+			);
+			path = UseCase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,16 +629,19 @@
 				9B811EEA2A0F6E17008A660E /* CollectionViewTableViewCell.swift in Sources */,
 				9BFDF71C2A133EA5005E3953 /* HomeViewModel.swift in Sources */,
 				9B811EEF2A0FAAD9008A660E /* APICaller.swift in Sources */,
+				9BFDF73B2A1496EB005E3953 /* ContentUseCase.swift in Sources */,
 				9B811EFD2A0FBEB9008A660E /* Content.swift in Sources */,
 				9B811EEC2A0F8077008A660E /* PosterHeaderUIView.swift in Sources */,
 				9BFDF6FF2A108743005E3953 /* ContentTableViewCell.swift in Sources */,
 				9B811ED92A0F581F008A660E /* DownloadsViewController.swift in Sources */,
 				9B811EA12A0E6B73008A660E /* AppDelegate.swift in Sources */,
 				9B811F022A0FC3BF008A660E /* ContentRepositoryProtocol.swift in Sources */,
+				9BFDF7382A149626005E3953 /* ContentUseCaseProtocol.swift in Sources */,
 				9BFDF7052A10AEC4005E3953 /* SearchResultsViewController.swift in Sources */,
 				9BFDF7102A10F270005E3953 /* VideoPreview.swift in Sources */,
 				9B811EA32A0E6B73008A660E /* SceneDelegate.swift in Sources */,
 				9BFDF71F2A134D8B005E3953 /* UpcomingViewModel.swift in Sources */,
+				9BFDF7412A14A4DC005E3953 /* YoutubeUseCaseProtocol.swift in Sources */,
 				9BFDF70D2A10F0FC005E3953 /* VideoPreviewViewController.swift in Sources */,
 				9BFDF7092A10E458005E3953 /* YoutubeSearchResponseDTO.swift in Sources */,
 				9BFDF7192A11EE26005E3953 /* ContentStorage.swift in Sources */,
@@ -617,6 +656,7 @@
 				9BFDF72E2A1360CE005E3953 /* DownloadViewModel.swift in Sources */,
 				9B811ED32A0F57D7008A660E /* HomeViewController.swift in Sources */,
 				9BFDF7272A135D1C005E3953 /* VideoPreviewViewModel.swift in Sources */,
+				9BFDF73F2A14A496005E3953 /* YoutubeUseCaseProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

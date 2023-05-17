@@ -18,7 +18,8 @@ class DownloadsViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    private var viewModel = DownloadViewModel(contentRepository: ContentRepository())
+    private var viewModel = DownloadViewModel(fetchDownloadContentUseCase: .init(repository: ContentRepository()),
+                                              deleteContentUseCase: .init(repository: ContentRepository()))
     private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

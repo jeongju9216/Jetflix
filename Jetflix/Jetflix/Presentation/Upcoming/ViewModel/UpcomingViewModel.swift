@@ -12,11 +12,11 @@ enum UpcommingViewModelActions {
 }
 
 final class UpcommingViewModel {
-    private var contentRepository: ContentRepositoryProtocol
+    private var getContentUseCase: GetContentUseCase
     @Published private(set) var contents: [Content] = []
     
-    init(contentRepository: ContentRepositoryProtocol) {
-        self.contentRepository = contentRepository
+    init(getContentUseCase: GetContentUseCase) {
+        self.getContentUseCase = getContentUseCase
     }
     
     func action(_ actions: UpcommingViewModelActions) {
@@ -31,7 +31,7 @@ extension UpcommingViewModel {
     private func fetchContents() {
         Task {
             do {
-                contents = try await contentRepository.getContents(type: .upcoming)
+                contents = try await getContentUseCase.excute(requestValue: .upcoming)
             } catch {
                 contents = []
             }
