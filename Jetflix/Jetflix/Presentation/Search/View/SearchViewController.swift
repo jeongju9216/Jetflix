@@ -28,7 +28,8 @@ class SearchViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    private var viewModel = SearchViewModel(contentRepository: ContentRepository())
+    private var viewModel = SearchViewModel(getContentUseCase: .init(repository: ContentRepository()),
+                                            searchContentUseCase: .init(repository: ContentRepository()))
     private var cancellables: Set<AnyCancellable> = []
     private var textInputTimerCancellable: Cancellable?
     

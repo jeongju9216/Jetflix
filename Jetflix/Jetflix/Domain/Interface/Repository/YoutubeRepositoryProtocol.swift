@@ -10,3 +10,4 @@ import Foundation
 protocol YoutubeRepositoryProtocol {
     func getMovieTrailer(title: String) async throws -> VideoElement
 }
+

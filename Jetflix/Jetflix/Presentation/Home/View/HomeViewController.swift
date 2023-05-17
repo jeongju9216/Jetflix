@@ -38,7 +38,8 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     private let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
-    private let viewModel = HomeViewModel(contentRepository: ContentRepository())
+    private let viewModel = HomeViewModel(getContentUseCase: .init(repository: ContentRepository()),
+                                          saveContentUseCase: .init(repository: ContentRepository()))
     private var cancellable: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

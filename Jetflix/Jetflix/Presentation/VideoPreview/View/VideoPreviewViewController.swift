@@ -53,7 +53,7 @@ class VideoPreviewViewController: UIViewController {
     
     
     //MARK: - Properties
-    private var viewModel = VideoPreviewViewModel(youtubeRepository: YoutubeRepository())
+    private var viewModel = VideoPreviewViewModel(searchYoutubeUseCase: .init(repository: YoutubeRepository()))
     var content: Content?
     private var cancellables: Set<AnyCancellable> = []
     
