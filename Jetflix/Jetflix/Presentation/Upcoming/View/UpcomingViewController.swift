@@ -18,7 +18,7 @@ class UpcomingViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    private var viewModel = UpcommingViewModel(contentRepository: ContentRepository())
+    private var viewModel = UpcommingViewModel(getContentUseCase: .init(repository: ContentRepository()))
     private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

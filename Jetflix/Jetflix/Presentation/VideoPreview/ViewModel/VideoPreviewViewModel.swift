@@ -13,11 +13,11 @@ enum VideoPreviewViewModelActions {
 }
 
 final class VideoPreviewViewModel {
-    private var youtubeRepository: YoutubeRepositoryProtocol
+    private var searchYoutubeUseCase: SearchYoutubeUseCase
     @Published private(set) var trailerVideoElement: VideoElement?
     
-    init(youtubeRepository: YoutubeRepositoryProtocol) {
-        self.youtubeRepository = youtubeRepository
+    init(searchYoutubeUseCase: SearchYoutubeUseCase) {
+        self.searchYoutubeUseCase = searchYoutubeUseCase
     }
     
     func action(_ actions: VideoPreviewViewModelActions) {
@@ -31,7 +31,7 @@ final class VideoPreviewViewModel {
 extension VideoPreviewViewModel {
     private func getMovieTrailer(title: String) {
         Task {
-            trailerVideoElement = try? await youtubeRepository.getMovieTrailer(title: title)
+            trailerVideoElement = try? await searchYoutubeUseCase.excute(requestValue: title)
         }
     }
 }

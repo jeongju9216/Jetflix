@@ -14,13 +14,15 @@ enum SearchViewModelActions {
 }
 
 final class SearchViewModel {
-    private var contentRepository: ContentRepositoryProtocol
+    private var getContentUseCase: GetContentUseCase
+    private var searchContentUseCase: SearchContentUseCase
     
     @Published private(set) var contents: [Content] = []
     @Published private(set) var searchResult: [Content] = []
     
-    init(contentRepository: ContentRepositoryProtocol) {
-        self.contentRepository = contentRepository
+    init(getContentUseCase: GetContentUseCase, searchContentUseCase: SearchContentUseCase) {
+        self.getContentUseCase = getContentUseCase
+        self.searchContentUseCase = searchContentUseCase
     }
     
     func action(_ actions: SearchViewModelActions) {
@@ -37,7 +39,7 @@ extension SearchViewModel {
     private func fetchContents() {
         Task {
             do {
-                contents = try await contentRepository.getContents(type: .discover)
+                contents = try await getContentUseCase.excute(requestValue: .discover)
             } catch {
                 contents = []
             }
@@ -47,7 +49,7 @@ extension SearchViewModel {
     private func search(query: String) {
         Task {
             do {
-                searchResult = try await contentRepository.search(with: query)
+                searchResult = try await searchContentUseCase.excute(requestValue: query)
             } catch {
                 searchResult = []
             }

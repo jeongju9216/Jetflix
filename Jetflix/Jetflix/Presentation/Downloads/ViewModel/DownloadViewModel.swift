@@ -14,12 +14,14 @@ enum DownloadViewModelActions {
 }
 
 final class DownloadViewModel {
-    private var contentRepository: ContentRepositoryProtocol
+    private var fetchDownloadContentUseCase: FetchDownloadContentUseCase
+    private var deleteContentUseCase: DeleteContentUseCase
     
     @Published private(set) var contents: [Content] = []
     
-    init(contentRepository: ContentRepositoryProtocol) {
-        self.contentRepository = contentRepository
+    init(fetchDownloadContentUseCase: FetchDownloadContentUseCase, deleteContentUseCase: DeleteContentUseCase) {
+        self.fetchDownloadContentUseCase = fetchDownloadContentUseCase
+        self.deleteContentUseCase = deleteContentUseCase
     }
     
     func action(_ actions: DownloadViewModelActions) {
@@ -36,7 +38,7 @@ extension DownloadViewModel {
     private func fetchDownloadContents() {
         Task {
             do {
-                contents = try contentRepository.fetchDownloadsContents()
+                contents = try fetchDownloadContentUseCase.excute()
             } catch {
                 contents = []
             }
@@ -45,7 +47,7 @@ extension DownloadViewModel {
     
     private func delete(at index: Int) {
         do {
-            try contentRepository.delete(content: contents[index])
+            try deleteContentUseCase.excute(requestValue: contents[index])
             contents.remove(at: index)
         } catch {
         }

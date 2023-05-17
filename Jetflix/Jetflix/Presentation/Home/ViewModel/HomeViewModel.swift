@@ -32,12 +32,14 @@ enum HomeViewModelActionsOutput {
 }
 
 final class HomeViewModel {
-    private var contentRepository: ContentRepositoryProtocol
-
+    private var getContentUseCase: GetContentUseCase
+    private var saveContentUseCase: SaveContentUseCase
+    
     @Published private(set) var randomTrendingContent: Content?
     
-    init(contentRepository: ContentRepositoryProtocol) {
-        self.contentRepository = contentRepository
+    init(getContentUseCase: GetContentUseCase, saveContentUseCase: SaveContentUseCase) {
+        self.getContentUseCase = getContentUseCase
+        self.saveContentUseCase = saveContentUseCase
     }
     
     //MARK: - Actions
@@ -58,18 +60,18 @@ final class HomeViewModel {
 extension HomeViewModel {
     //MARK: - Methods
     private func getContents(type: ContentType) async throws -> [Content] {
-        return try await contentRepository.getContents(type: type)
+        return try await getContentUseCase.excute(requestValue: type)
     }
     
     private func getRandomTrendingContent() {
         Task {
-            randomTrendingContent = try? await getContents(type: .trending(.movie)).randomElement()
+            randomTrendingContent = try? await getContentUseCase.excute(requestValue: .trending(.movie)).randomElement()
         }
     }
     
     private func save(content: Content) -> Bool {
         do {
-            try contentRepository.saveWith(content: content)
+            try saveContentUseCase.excute(requestValue: content)
             return true
         } catch {
             return false
