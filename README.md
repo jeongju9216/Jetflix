@@ -58,3 +58,9 @@ PR 탭에서 에피소드별로 확인할 수 있습니다.
 - MVC 구조를 MVVM으로 변경
 - Enum을 이용해 ViewModelActions 정의
 - Enum을 이용해 API 콜 메서드 정리
+
+## 2. UseCase 구현
+블로그 포스팅: https://jeong9216.tistory.com/624  
+- UseCase를 구현하여 ViewModel과 Repository의 연결을 끊음
+- UseCase는 변화가 적도록 Save, Get, Delete 등 동작을 기준으로 분리 구현함
+- ContentUseCase는 ContentUseCaseProtocol을 채택해서 ContentRepositoryProtocol을 필수로 가지도록 구현
