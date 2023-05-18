@@ -22,7 +22,7 @@ class UpcomingViewController: UIViewController, ContentListCollectionViewProtoco
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: createVerticalCompositionalLayout(
                                                 itemSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                heightDimension: .absolute(120)),
+                                                                heightDimension: .absolute(150)),
                                                 itemInsets: .init(top: 5, leading: 0, bottom: 5, trailing: 0)))
         
         collectionView.register(ContentListCollectionViewCell.self, forCellWithReuseIdentifier: ContentListCollectionViewCell.identifier)

@@ -11,18 +11,21 @@ import Combine
 enum SearchViewModelActions {
     case fetchContents
     case search(String)
+    case save(Content)
 }
 
 final class SearchViewModel {
     private var getContentUseCase: GetContentUseCase
     private var searchContentUseCase: SearchContentUseCase
-    
+    private var saveContentUseCase: SaveContentUseCase
+
     @Published private(set) var contents: [Content] = []
     @Published private(set) var searchResult: [Content] = []
     
-    init(getContentUseCase: GetContentUseCase, searchContentUseCase: SearchContentUseCase) {
+    init(getContentUseCase: GetContentUseCase, searchContentUseCase: SearchContentUseCase, saveContentUseCase: SaveContentUseCase) {
         self.getContentUseCase = getContentUseCase
         self.searchContentUseCase = searchContentUseCase
+        self.saveContentUseCase = saveContentUseCase
     }
     
     func action(_ actions: SearchViewModelActions) {
@@ -31,6 +34,8 @@ final class SearchViewModel {
             fetchContents()
         case .search(let query):
             search(query: query)
+        case .save(let content):
+            let _ = save(content: content)
         }
     }
 }
@@ -53,6 +58,15 @@ extension SearchViewModel {
             } catch {
                 searchResult = []
             }
+        }
+    }
+    
+    private func save(content: Content) -> Bool {
+        do {
+            try saveContentUseCase.excute(requestValue: content)
+            return true
+        } catch {
+            return false
         }
     }
 }

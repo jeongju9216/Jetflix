@@ -17,7 +17,7 @@ class ContentPosterCollectionViewCell: UICollectionViewCell {
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 5
         
         return imageView
     }()

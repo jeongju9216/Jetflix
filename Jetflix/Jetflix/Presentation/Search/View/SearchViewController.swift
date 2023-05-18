@@ -8,13 +8,25 @@
 import UIKit
 import Combine
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, ContentListCollectionViewProtocol {
+    enum Sections: Int {
+        case main
+    }
 
+    private typealias DataSource = UICollectionViewDiffableDataSource<Sections, Content>
+    private typealias SnapShot = NSDiffableDataSourceSnapshot<Sections, Content>
+    
     //MARK: - Views
-    private let discoverTable: UITableView = {
-        let table = UITableView()
-        table.register(ContentTableViewCell.self, forCellReuseIdentifier: ContentTableViewCell.identifier)
-        return table
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: createVerticalCompositionalLayout(
+                                                itemSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                heightDimension: .absolute(150)),
+                                                itemInsets: .init(top: 5, leading: 0, bottom: 5, trailing: 0)))
+        
+        collectionView.register(ContentListCollectionViewCell.self, forCellWithReuseIdentifier: ContentListCollectionViewCell.identifier)
+        
+        return collectionView
     }()
 
     private let searchController: UISearchController = {
@@ -28,8 +40,11 @@ class SearchViewController: UIViewController {
     }()
     
     //MARK: - Properties
+    private lazy var dataSource: DataSource = setupDataSource()
+    private var snapshot: SnapShot = SnapShot()
     private var viewModel = SearchViewModel(getContentUseCase: .init(repository: ContentRepository()),
-                                            searchContentUseCase: .init(repository: ContentRepository()))
+                                            searchContentUseCase: .init(repository: ContentRepository()),
+                                            saveContentUseCase: .init(repository: ContentRepository()))
     private var cancellables: Set<AnyCancellable> = []
     private var textInputTimerCancellable: Cancellable?
     
@@ -40,8 +55,8 @@ class SearchViewController: UIViewController {
         setupUI()
         bind()
         
-        discoverTable.delegate = self
-        discoverTable.dataSource = self
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -52,14 +67,19 @@ class SearchViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        discoverTable.frame = view.bounds
+        collectionView.frame = view.bounds
     }
     
     private func bind() {
         viewModel.$contents
             .receive(on: DispatchQueue.main)
             .sink { [weak self] contents in
-                self?.discoverTable.reloadData()
+                guard let self = self else { return }
+                
+                if !contents.isEmpty {
+                    self.snapshot.appendItems(contents, toSection: .main)
+                    dataSource.apply(self.snapshot, animatingDifferences: false)
+                }
             }
             .store(in: &cancellables)
         
@@ -78,11 +98,11 @@ class SearchViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    //MARK: - Methods
+    //MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        view.addSubview(discoverTable)
+        view.addSubview(collectionView)
         
         title = "Top Search"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -92,6 +112,24 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
+    private func setupDataSource() -> DataSource {
+        let cellProvider = { (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentListCollectionViewCell.identifier, for: indexPath) as? ContentListCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configure(with: product)
+            
+            return cell
+        }
+
+        let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
+        snapshot.appendSections([Sections.main])
+        
+        return dataSource
+    }
+
+    //MARK: - Methods
     private func fetchDiscoverData() {
         Task {
             viewModel.action(.fetchContents)
@@ -124,35 +162,37 @@ class SearchViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDelegate
-extension SearchViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContentTableViewCell.identifier, for: indexPath) as? ContentTableViewCell else {
-            return UITableViewCell()
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let content = dataSource.itemIdentifier(for: indexPath) else { return }
+            
+        presentVideoPreivewWith(content: content)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ContentPosterCollectionViewCell else { return }
+        
+        cell.cancelDownloadImage()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let firstIndexPath = indexPaths.first,
+              let content = self.dataSource.itemIdentifier(for: firstIndexPath) else { return nil }
+        
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let downloadAction = UIAction(title: "Download", state: .off) { _ in
+                Task {
+                    try? await self?.viewModel.action(.save(content))
+                }
+            }
+            
+            return UIMenu(options: .displayInline, children: [downloadAction])
         }
         
-        cell.configure(with: viewModel.contents[indexPath.row])
-
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        presentVideoPreivewWith(content: viewModel.contents[indexPath.row])
+        return config
     }
 }
 
-//MARK: - UITableViewDataSource
-extension SearchViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.contents.count
-    }
-}
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

@@ -14,12 +14,8 @@ protocol SearchResultsViewControllerDelegate: AnyObject {
 class SearchResultsViewController: UIViewController {
 
     //MARK: - Views
-    let searchResultsCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3 - 5, height: 200)
-        layout.minimumInteritemSpacing = 0
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    lazy var searchResultsCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridCompositionalLayout())
         collectionView.register(ContentPosterCollectionViewCell.self, forCellWithReuseIdentifier: ContentPosterCollectionViewCell.identifier)
         
         return collectionView
@@ -52,11 +48,30 @@ class SearchResultsViewController: UIViewController {
         view.addSubview(searchResultsCollectionView)
     }
     
+    //MARK: - Methods
     func clearData() {
         contents.removeAll()
         DispatchQueue.main.async { [weak self] in
             self?.searchResultsCollectionView.reloadData()
         }
+    }
+
+    func createGridCompositionalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / 3), heightDimension: .absolute(200))
+            
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = .init(top: 2.5, leading: 2.5, bottom: 2.5, trailing: 2.5)
+        
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item, item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            
+            return section
+        }
+        
+        return layout
     }
 }
 

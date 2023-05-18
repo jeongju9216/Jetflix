@@ -8,16 +8,31 @@
 import UIKit
 import Combine
 
-class DownloadsViewController: UIViewController {
+class DownloadsViewController: UIViewController, ContentListCollectionViewProtocol {
 
+    enum Sections: Int {
+        case main
+    }
+
+    private typealias DataSource = UICollectionViewDiffableDataSource<Sections, Content>
+    private typealias SnapShot = NSDiffableDataSourceSnapshot<Sections, Content>
+    
     //MARK: - Views
-    private let downloadTable: UITableView = {
-        let table = UITableView()
-        table.register(ContentTableViewCell.self, forCellReuseIdentifier: ContentTableViewCell.identifier)
-        return table
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: createVerticalCompositionalLayout(
+                                                itemSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                heightDimension: .absolute(150)),
+                                                itemInsets: .init(top: 5, leading: 0, bottom: 5, trailing: 0)))
+        
+        collectionView.register(ContentListCollectionViewCell.self, forCellWithReuseIdentifier: ContentListCollectionViewCell.identifier)
+        
+        return collectionView
     }()
     
     //MARK: - Properties
+    private lazy var dataSource: DataSource = setupDataSource()
+    private var snapshot: SnapShot = SnapShot()
     private var viewModel = DownloadViewModel(fetchDownloadContentUseCase: .init(repository: ContentRepository()),
                                               deleteContentUseCase: .init(repository: ContentRepository()))
     private var cancellables: Set<AnyCancellable> = []
@@ -29,8 +44,8 @@ class DownloadsViewController: UIViewController {
         setupUI()
         bind()
         
-        downloadTable.delegate = self
-        downloadTable.dataSource = self
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,19 +56,26 @@ class DownloadsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        downloadTable.frame = view.bounds
+        collectionView.frame = view.bounds
     }
     
     private func bind() {
         viewModel.$contents
             .receive(on: DispatchQueue.main)
             .sink { [weak self] downloads in
-                self?.downloadTable.reloadData()
+                guard let self = self else { return }
+                
+                if !downloads.isEmpty {
+                    self.snapshot = SnapShot()
+                    self.snapshot.appendSections([.main])
+                    self.snapshot.appendItems(downloads, toSection: .main)
+                    dataSource.apply(self.snapshot, animatingDifferences: true)
+                }
             }
             .store(in: &cancellables)
     }
     
-    //MARK: - Methods
+    //MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
@@ -61,7 +83,23 @@ class DownloadsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         
-        view.addSubview(downloadTable)
+        view.addSubview(collectionView)
+    }
+    
+    private func setupDataSource() -> DataSource {
+        let cellProvider = { (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentListCollectionViewCell.identifier, for: indexPath) as? ContentListCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configure(with: product)
+            
+            return cell
+        }
+
+        let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
+        
+        return dataSource
     }
     
     private func fetchDownloadsContents() {
@@ -69,44 +107,34 @@ class DownloadsViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDelegate
-extension DownloadsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContentTableViewCell.identifier, for: indexPath) as? ContentTableViewCell else {
-            return UITableViewCell()
-        }
-        
-        cell.configure(with: viewModel.contents[indexPath.row])
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let content = viewModel.contents[indexPath.row]
+//MARK: - UICollectionViewDelegate
+extension DownloadsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let content = dataSource.itemIdentifier(for: indexPath) else { return }
         
         let videoPreviewVC = VideoPreviewViewController()
         videoPreviewVC.content = content
         navigationController?.present(videoPreviewVC, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            viewModel.action(.delete(indexPath.row))
-        default: break
-        }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ContentPosterCollectionViewCell else { return }
+        
+        cell.cancelDownloadImage()
     }
-}
-
-//MARK: - UITableViewDataSource
-extension DownloadsViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.contents.count
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let firstIndexPath = indexPaths.first,
+              let content = self.dataSource.itemIdentifier(for: firstIndexPath) else { return nil }
+        
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let deleteAction = UIAction(title: "Delete", state: .off) { _ in
+                self?.viewModel.action(.delete(firstIndexPath.row))
+            }
+            
+            return UIMenu(options: .displayInline, children: [deleteAction])
+        }
+        
+        return config
     }
 }
