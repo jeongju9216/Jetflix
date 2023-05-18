@@ -8,36 +8,41 @@
 import UIKit
 import Combine
 
-enum Sections: Int {
-    case TrendingMovies
-    case TrendingTv
-    case Popular
-    case Upcoming
-    case TopRated
-}
-
 class HomeViewController: UIViewController {
+    enum Sections: Int, CaseIterable {
+        case header, TrendingMovies, TrendingTv, Popular, Upcoming, TopRated
+        
+        var title: String {
+            switch self {
+            case .header: return ""
+            case .TrendingMovies: return "Trending Movies"
+            case .TrendingTv: return "Trending TV"
+            case .Popular: return "Popular"
+            case .Upcoming: return "Upcoming Movies"
+            case .TopRated: return "Top rated"
+            }
+        }
+    }
+
+    private typealias DataSource = UICollectionViewDiffableDataSource<Sections, Content>
+    private typealias SnapShot = NSDiffableDataSourceSnapshot<Sections, Content>
 
     //MARK: - Views
-    private var headerView: PosterHeaderUIView = {
-        let headerView = PosterHeaderUIView(frame: CGRect(x: 0, y: 0,
-                                                          width: UIScreen.main.bounds.width,
-                                                          height: UIScreen.main.bounds.height * 0.65))
-        return headerView
-    }()
-    
-    private let homeFeedTable: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = .systemBackground
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
         
-        tableView.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        collectionView.register(ContentPosterCollectionViewCell.self, forCellWithReuseIdentifier: ContentPosterCollectionViewCell.identifier)
+        collectionView.register(PosterHeaderCollectionViewCell.self, forCellWithReuseIdentifier: PosterHeaderCollectionViewCell.identifier)
+        collectionView.register(SectionHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: SectionHeaderView.identifier)
         
-        return tableView
+        return collectionView
     }()
-    
     
     //MARK: - Properties
-    private let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top rated"]
+    private lazy var dataSource: DataSource = setupDataSource()
+    private var snapshot: SnapShot = SnapShot()
     private let viewModel = HomeViewModel(getContentUseCase: .init(repository: ContentRepository()),
                                           saveContentUseCase: .init(repository: ContentRepository()))
     private var cancellable: Set<AnyCancellable> = []
@@ -47,25 +52,27 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-        bind()
         
-        homeFeedTable.delegate = self
-        homeFeedTable.dataSource = self
+        collectionView.dataSource = dataSource
+        collectionView.delegate = self
+
+        bind()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        homeFeedTable.frame = view.bounds
+        collectionView.frame = view.bounds
     }
     
     private func bind() {
         viewModel.$randomTrendingContent
             .receive(on: RunLoop.main)
             .sink { [weak self] randomContent in
-                guard let randomContent = randomContent else { return }
+                guard let self = self, let randomContent = randomContent else { return }
                 
-                self?.headerView.configure(with: randomContent)
+                self.snapshot.appendItems([randomContent], toSection: .header)
             }
             .store(in: &cancellable)
     }
@@ -74,17 +81,89 @@ class HomeViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        homeFeedTable.tableHeaderView = headerView
-        view.addSubview(homeFeedTable)
-        Task {
-            do {
-                try await viewModel.action(.getRandomTrendingContent)
-            } catch {
-                //todo: 기본 이미지 추가해서 에러 핸들링
+        view.addSubview(collectionView)
+                
+        configurationNavbar()
+    }
+    
+    private func setupDataSource() -> DataSource {
+        let cellProvider = { [weak self] (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
+            switch Sections(rawValue: indexPath.section) {
+            case .header:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterHeaderCollectionViewCell.identifier, for: indexPath) as? PosterHeaderCollectionViewCell else {
+                    return UICollectionViewCell()
+                }
+                
+                cell.configure(with: product)
+                
+                return cell
+            default:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentPosterCollectionViewCell.identifier, for: indexPath) as? ContentPosterCollectionViewCell else {
+                    return UICollectionViewCell()
+                }
+                
+                cell.configure(with: product.posterURLString ?? "")
+                
+                return cell
+            }
+        }
+
+        let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
+            guard let self = self,
+                  elementKind == UICollectionView.elementKindSectionHeader else { return UICollectionViewCell() }
+
+            guard let headView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: SectionHeaderView.identifier, for: indexPath) as? SectionHeaderView else {
+                return UICollectionViewCell()
+            }
+
+            headView.configuration(Sections(rawValue: indexPath.section)?.title ?? "")
+
+            return headView
+        }
+        
+        return dataSource
+    }
+    
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
+            switch Sections(rawValue: sectionIndex) {
+            case .header:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(UIScreen.main.bounds.height * 0.65))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+            default:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(150),
+                                                      heightDimension: .absolute(220))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                let sectionInset = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 10)
+                section.contentInsets = sectionInset
+                
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                        heightDimension: .estimated(30))
+                let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top)
+                section.boundarySupplementaryItems = [sectionHeader]
+                
+                return section
             }
         }
         
-        configurationNavbar()
+        return layout
     }
     
     private func configurationNavbar() {
@@ -108,46 +187,77 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
     }
+    
+    //MARK: - Methods
+    private func fetchData() {
+        Task {
+            snapshot.appendSections(Sections.allCases)
+            
+            var contentType: ContentType = .trending(.movie)
+            for section in Sections.allCases {
+                switch section {
+                case .header: break
+                case .TrendingMovies:
+                    contentType = .trending(.movie)
+                case .TrendingTv:
+                    contentType = .trending(.tv)
+                case .Popular:
+                    contentType = .popular
+                case .Upcoming:
+                    contentType = .upcoming
+                case .TopRated:
+                    contentType = .topRated
+                }
+                
+                if section != .header {
+                    let contents = try? await viewModel.action(.getContents(contentType)).value as? [Content]
+                    snapshot.appendItems(contents ?? [], toSection: section)
+                } else {
+                    try? await viewModel.action(.getRandomTrendingContent)
+                }
+            }
+            
+            await dataSource.apply(snapshot, animatingDifferences: false)
+        }
+    }
 }
 
-//MARK: - UITableViewDelegate
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
-            return UITableViewCell()
+//MARK: - UICollectionViewDelegate
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let content = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        let videoPreviewVC = VideoPreviewViewController()
+        videoPreviewVC.content = content
+        navigationController?.present(videoPreviewVC, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ContentPosterCollectionViewCell else { return }
+        
+        cell.cancelDownloadImage()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let firstIndexPath = indexPaths.first,
+              let content = self.dataSource.itemIdentifier(for: firstIndexPath) else { return nil }
+        
+        //포스터 헤더는 롱클릭 지원 안 함
+        if Sections(rawValue: firstIndexPath.section) == .header {
+            return nil
         }
-                
-        Task {
-            let contentType: ContentType
-            switch indexPath.section {
-            case Sections.TrendingMovies.rawValue:
-                contentType = .trending(.movie)
-            case Sections.TrendingTv.rawValue:
-                contentType = .trending(.tv)
-            case Sections.Popular.rawValue:
-                contentType = .popular
-            case Sections.Upcoming.rawValue:
-                contentType = .upcoming
-            case Sections.TopRated.rawValue:
-                contentType = .topRated
-            default: return
+        
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let downloadAction = UIAction(title: "Download", state: .off) { _ in
+                Task {
+                    try? await self?.viewModel.action(.save(content))
+                }
             }
-
-            let contents = try? await viewModel.action(.getContents(contentType)).value as? [Content]
-            cell.configure(with: contents ?? [])
+            
+            return UIMenu(options: .displayInline, children: [downloadAction])
         }
         
-        cell.delegate = self
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return config
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -156,44 +266,5 @@ extension HomeViewController: UITableViewDelegate {
         
         //아래로 스크롤을 하면 네비게이션바가 함께 올라가도록 구현
         navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-    }
-}
-
-//MARK: - UITableViewDataSource
-extension HomeViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let header = view as? UITableViewHeaderFooterView else { return }
-        
-        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
-        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.textColor = .label
-        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
-    }
-}
-
-//MARK: - CollectionViewTableViewCellDelegate
-extension HomeViewController: CollectionViewTableViewCellDelegate {
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, content: Content) {
-        let videoPreviewVC = VideoPreviewViewController()
-        videoPreviewVC.content = content
-        navigationController?.present(videoPreviewVC, animated: true)
-    }
-    
-    func collectionViewTableViewCellDidClickDownload(content: Content) {
-        Task {
-            try? await viewModel.action(.save(content))
-        }
     }
 }

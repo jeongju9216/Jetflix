@@ -21,6 +21,7 @@ enum MediaType: String {
 }
 
 struct Content: Hashable {
+    let uuid: UUID = UUID()
     let id: Int
     let mediaType: MediaType
     let adult: Bool?

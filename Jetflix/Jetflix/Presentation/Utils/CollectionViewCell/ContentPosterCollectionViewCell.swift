@@ -1,5 +1,5 @@
 //
-//  ContentCollectionViewCell.swift
+//  ContentPosterCollectionViewCell.swift
 //  Jetflix
 //
 //  Created by 유정주 on 2023/05/14.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class ContentCollectionViewCell: UICollectionViewCell {
+class ContentPosterCollectionViewCell: UICollectionViewCell {
     static let identifier = "ContentCollectionViewCell"
     
     //MARK: - Views
@@ -17,6 +17,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 5
         
         return imageView
     }()

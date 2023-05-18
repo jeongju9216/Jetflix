@@ -1,14 +1,15 @@
 //
-//  ContentTableViewCell.swift
+//  ContentListCollectionViewCell.swift
 //  Jetflix
 //
 //  Created by 유정주 on 2023/05/14.
 //
 
 import UIKit
+import Kingfisher
 
-class ContentTableViewCell: UITableViewCell {
-    static let identifier = "ContentTableViewCell"
+class ContentListCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ContentListCollectionViewCell"
     
     //MARK: - Views
     private let playButton: UIButton = {
@@ -43,8 +44,8 @@ class ContentTableViewCell: UITableViewCell {
     }()
     
     //MARK: - Init
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         contentView.addSubview(posterImageView)
         contentView.addSubview(titleLabel)
@@ -89,5 +90,9 @@ class ContentTableViewCell: UITableViewCell {
         
         posterImageView.kf.setImage(with: url)
         titleLabel.text = content.displayTitle
+    }
+    
+    func cancelDownloadImage() {
+        posterImageView.kf.cancelDownloadTask()
     }
 }
