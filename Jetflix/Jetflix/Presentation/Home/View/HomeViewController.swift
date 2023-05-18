@@ -8,37 +8,31 @@
 import UIKit
 import Combine
 
-enum Sections: Int, CaseIterable {
-    case header
-    case TrendingMovies
-    case TrendingTv
-    case Popular
-    case Upcoming
-    case TopRated
-    
-    var title: String {
-        switch self {
-        case .header: return ""
-        case .TrendingMovies: return "Trending Movies"
-        case .TrendingTv: return "Trending TV"
-        case .Popular: return "Popular"
-        case .Upcoming: return "Upcoming Movies"
-        case .TopRated: return "Top rated"
+class HomeViewController: UIViewController {
+    enum Sections: Int, CaseIterable {
+        case header, TrendingMovies, TrendingTv, Popular, Upcoming, TopRated
+        
+        var title: String {
+            switch self {
+            case .header: return ""
+            case .TrendingMovies: return "Trending Movies"
+            case .TrendingTv: return "Trending TV"
+            case .Popular: return "Popular"
+            case .Upcoming: return "Upcoming Movies"
+            case .TopRated: return "Top rated"
+            }
         }
     }
-}
-
-class HomeViewController: UIViewController {
 
     private typealias DataSource = UICollectionViewDiffableDataSource<Sections, Content>
     private typealias SnapShot = NSDiffableDataSourceSnapshot<Sections, Content>
 
     //MARK: - Views
-    private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
         
-        collectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
-        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
+        collectionView.register(ContentPosterCollectionViewCell.self, forCellWithReuseIdentifier: ContentPosterCollectionViewCell.identifier)
+        collectionView.register(PosterHeaderCollectionViewCell.self, forCellWithReuseIdentifier: PosterHeaderCollectionViewCell.identifier)
         collectionView.register(SectionHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: SectionHeaderView.identifier)
@@ -47,7 +41,7 @@ class HomeViewController: UIViewController {
     }()
     
     //MARK: - Properties
-    private var dataSource: DataSource!
+    private lazy var dataSource: DataSource = setupDataSource()
     private var snapshot: SnapShot = SnapShot()
     private let viewModel = HomeViewModel(getContentUseCase: .init(repository: ContentRepository()),
                                           saveContentUseCase: .init(repository: ContentRepository()))
@@ -58,11 +52,12 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-        setupDataSource()
         
-        bind()
-        
+        collectionView.dataSource = dataSource
         collectionView.delegate = self
+
+        bind()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -86,17 +81,16 @@ class HomeViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        collectionView.collectionViewLayout = createCollectionViewLayout()
         view.addSubview(collectionView)
                 
         configurationNavbar()
     }
     
-    private func setupDataSource() {
+    private func setupDataSource() -> DataSource {
         let cellProvider = { [weak self] (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
             switch Sections(rawValue: indexPath.section) {
             case .header:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterHeaderCollectionViewCell.identifier, for: indexPath) as? PosterHeaderCollectionViewCell else {
                     return UICollectionViewCell()
                 }
                 
@@ -104,7 +98,7 @@ class HomeViewController: UIViewController {
                 
                 return cell
             default:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentPosterCollectionViewCell.identifier, for: indexPath) as? ContentPosterCollectionViewCell else {
                     return UICollectionViewCell()
                 }
                 
@@ -114,7 +108,7 @@ class HomeViewController: UIViewController {
             }
         }
 
-        dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
+        let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
         dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
             guard let self = self,
                   elementKind == UICollectionView.elementKindSectionHeader else { return UICollectionViewCell() }
@@ -128,37 +122,7 @@ class HomeViewController: UIViewController {
             return headView
         }
         
-        Task {
-            snapshot.appendSections(Sections.allCases)
-            
-            var contentType: ContentType = .trending(.movie)
-            for section in Sections.allCases {
-                switch section {
-                case .header: break
-                case .TrendingMovies:
-                    contentType = .trending(.movie)
-                case .TrendingTv:
-                    contentType = .trending(.tv)
-                case .Popular:
-                    contentType = .popular
-                case .Upcoming:
-                    contentType = .upcoming
-                case .TopRated:
-                    contentType = .topRated
-                }
-                
-                if section != .header {
-                    let contents = try? await viewModel.action(.getContents(contentType)).value as? [Content]
-                    snapshot.appendItems(contents ?? [], toSection: section)
-                } else {
-                    try? await viewModel.action(.getRandomTrendingContent)
-                }
-            }
-            
-            await dataSource.apply(snapshot, animatingDifferences: false)
-        }
-        
-        collectionView.dataSource = dataSource
+        return dataSource
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
@@ -201,7 +165,6 @@ class HomeViewController: UIViewController {
         
         return layout
     }
-
     
     private func configurationNavbar() {
         var image = UIImage(named: "LogoImage")
@@ -224,6 +187,39 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
     }
+    
+    //MARK: - Methods
+    private func fetchData() {
+        Task {
+            snapshot.appendSections(Sections.allCases)
+            
+            var contentType: ContentType = .trending(.movie)
+            for section in Sections.allCases {
+                switch section {
+                case .header: break
+                case .TrendingMovies:
+                    contentType = .trending(.movie)
+                case .TrendingTv:
+                    contentType = .trending(.tv)
+                case .Popular:
+                    contentType = .popular
+                case .Upcoming:
+                    contentType = .upcoming
+                case .TopRated:
+                    contentType = .topRated
+                }
+                
+                if section != .header {
+                    let contents = try? await viewModel.action(.getContents(contentType)).value as? [Content]
+                    snapshot.appendItems(contents ?? [], toSection: section)
+                } else {
+                    try? await viewModel.action(.getRandomTrendingContent)
+                }
+            }
+            
+            await dataSource.apply(snapshot, animatingDifferences: false)
+        }
+    }
 }
 
 //MARK: - UICollectionViewDelegate
@@ -237,7 +233,7 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? ContentCollectionViewCell else { return }
+        guard let cell = cell as? ContentPosterCollectionViewCell else { return }
         
         cell.cancelDownloadImage()
     }
