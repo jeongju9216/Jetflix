@@ -1,14 +1,15 @@
 //
-//  PosterHeaderUIView.swift
+//  PosterCollectionViewCell.swift
 //  Jetflix
 //
-//  Created by 유정주 on 2023/05/13.
+//  Created by 유정주 on 2023/05/18.
 //
 
 import UIKit
 
-class PosterHeaderUIView: UIView {
-
+class PosterCollectionViewCell: UICollectionViewCell {
+    static let identifier = "PosterCollectionViewCell"
+    
     //MARK: - Views
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
