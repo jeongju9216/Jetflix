@@ -8,7 +8,6 @@
 import UIKit
 
 class SectionHeaderView: UICollectionReusableView {
-    static let identifier = "SectionHeaderView"
 
     //MARK: - Views
     private var headerLabel: UILabel = {

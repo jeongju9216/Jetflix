@@ -26,6 +26,7 @@ class DownloadsViewController: UIViewController, ContentListCollectionViewProtoc
                                                 itemInsets: .init(top: 5, leading: 0, bottom: 5, trailing: 0)))
         
         collectionView.register(ContentListCollectionViewCell.self, forCellWithReuseIdentifier: ContentListCollectionViewCell.identifier)
+        collectionView.register(UINib(nibName: DefaultCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DefaultCollectionViewCell.identifier)
         
         return collectionView
     }()
@@ -88,8 +89,10 @@ class DownloadsViewController: UIViewController, ContentListCollectionViewProtoc
     
     private func setupDataSource() -> DataSource {
         let cellProvider = { (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
+            let defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath)
+            
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentListCollectionViewCell.identifier, for: indexPath) as? ContentListCollectionViewCell else {
-                return UICollectionViewCell()
+                return defaultCell
             }
             
             cell.configure(with: product)
