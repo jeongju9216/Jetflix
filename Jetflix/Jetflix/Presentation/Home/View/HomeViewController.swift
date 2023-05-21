@@ -36,6 +36,7 @@ class HomeViewController: UIViewController {
         collectionView.register(SectionHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: SectionHeaderView.identifier)
+        collectionView.register(UINib(nibName: DefaultCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DefaultCollectionViewCell.identifier)
         
         return collectionView
     }()
@@ -88,10 +89,12 @@ class HomeViewController: UIViewController {
     
     private func setupDataSource() -> DataSource {
         let cellProvider = { [weak self] (collectionView: UICollectionView, indexPath: IndexPath, product: Content) -> UICollectionViewCell? in
+            let defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath)
+            
             switch Sections(rawValue: indexPath.section) {
             case .header:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterHeaderCollectionViewCell.identifier, for: indexPath) as? PosterHeaderCollectionViewCell else {
-                    return UICollectionViewCell()
+                    return defaultCell
                 }
                 
                 cell.configure(with: product)
@@ -99,7 +102,7 @@ class HomeViewController: UIViewController {
                 return cell
             default:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentPosterCollectionViewCell.identifier, for: indexPath) as? ContentPosterCollectionViewCell else {
-                    return UICollectionViewCell()
+                    return defaultCell
                 }
                 
                 cell.configure(with: product.posterURLString ?? "")
@@ -110,11 +113,15 @@ class HomeViewController: UIViewController {
 
         let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
         dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
-            guard let self = self,
-                  elementKind == UICollectionView.elementKindSectionHeader else { return UICollectionViewCell() }
+            
+            let defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath)
+            
+            guard let self = self, elementKind == UICollectionView.elementKindSectionHeader else {
+                return defaultCell
+            }
 
             guard let headView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: SectionHeaderView.identifier, for: indexPath) as? SectionHeaderView else {
-                return UICollectionViewCell()
+                return defaultCell
             }
 
             headView.configuration(Sections(rawValue: indexPath.section)?.title ?? "")

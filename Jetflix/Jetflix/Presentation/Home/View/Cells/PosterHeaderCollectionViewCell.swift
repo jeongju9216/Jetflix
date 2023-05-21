@@ -8,7 +8,6 @@
 import UIKit
 
 class PosterHeaderCollectionViewCell: UICollectionViewCell {
-    static let identifier = "PosterCollectionViewCell"
     
     //MARK: - Views
     private let posterImageView: UIImageView = {

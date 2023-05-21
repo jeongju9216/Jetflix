@@ -9,7 +9,6 @@ import UIKit
 import Kingfisher
 
 class ContentListCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ContentListCollectionViewCell"
     
     //MARK: - Views
     private let playButton: UIButton = {

@@ -17,6 +17,7 @@ class SearchResultsViewController: UIViewController {
     lazy var searchResultsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridCompositionalLayout())
         collectionView.register(ContentPosterCollectionViewCell.self, forCellWithReuseIdentifier: ContentPosterCollectionViewCell.identifier)
+        collectionView.register(UINib(nibName: DefaultCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DefaultCollectionViewCell.identifier)
         
         return collectionView
     }()
@@ -78,8 +79,10 @@ class SearchResultsViewController: UIViewController {
 //MARK: - UICollectionViewDelegate
 extension SearchResultsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCollectionViewCell.identifier, for: indexPath)
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentPosterCollectionViewCell.identifier, for: indexPath) as? ContentPosterCollectionViewCell else {
-            return UICollectionViewCell()
+            return defaultCell
         }
         
         cell.configure(with: contents[indexPath.row].posterURLString ?? "")
