@@ -16,40 +16,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        registercContentDependencies()
+        registerYoutubeDependencies()
+        registerViewModel()
+        
         window = UIWindow(windowScene: windowScene)
         
         window?.rootViewController = MainTabBarViewController()
         window?.makeKeyAndVisible()
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+    
+    private func registercContentDependencies() {
+        DIContainer.shared.register(type: ContentRepositoryProtocol.self, service: ContentRepository())
+        
+        DIContainer.shared.register(type: GetContentUseCase.self, service: GetContentUseCase())
+        DIContainer.shared.register(type: SaveContentUseCase.self, service: SaveContentUseCase())
+        DIContainer.shared.register(type: DeleteContentUseCase.self, service: DeleteContentUseCase())
+        DIContainer.shared.register(type: SearchContentUseCase.self, service: SearchContentUseCase())
+        DIContainer.shared.register(type: FetchDownloadContentUseCase.self, service: FetchDownloadContentUseCase())
     }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    
+    private func registerYoutubeDependencies() {
+        DIContainer.shared.register(type: YoutubeRepositoryProtocol.self, service: YoutubeRepository())
+        
+        DIContainer.shared.register(type: SearchYoutubeUseCase.self, service: SearchYoutubeUseCase())
     }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+    
+    private func registerViewModel() {
+        DIContainer.shared.register(type: HomeViewModel.self, service: HomeViewModel())
+        DIContainer.shared.register(type: UpcommingViewModel.self, service: UpcommingViewModel())
+        DIContainer.shared.register(type: SearchViewModel.self, service: SearchViewModel())
+        DIContainer.shared.register(type: DownloadViewModel.self, service: DownloadViewModel())
+        DIContainer.shared.register(type: VideoPreviewViewModel.self, service: VideoPreviewViewModel())
     }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-
 }
-

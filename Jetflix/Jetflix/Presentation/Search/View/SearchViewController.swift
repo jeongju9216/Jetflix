@@ -43,9 +43,7 @@ class SearchViewController: UIViewController, ContentListCollectionViewProtocol 
     //MARK: - Properties
     private lazy var dataSource: DataSource = setupDataSource()
     private var snapshot: SnapShot = SnapShot()
-    private var viewModel = SearchViewModel(getContentUseCase: .init(repository: ContentRepository()),
-                                            searchContentUseCase: .init(repository: ContentRepository()),
-                                            saveContentUseCase: .init(repository: ContentRepository()))
+    @Dependency private var viewModel: SearchViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var textInputTimerCancellable: Cancellable?
     

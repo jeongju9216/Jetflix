@@ -15,18 +15,12 @@ enum SearchViewModelActions {
 }
 
 final class SearchViewModel {
-    private var getContentUseCase: GetContentUseCase
-    private var searchContentUseCase: SearchContentUseCase
-    private var saveContentUseCase: SaveContentUseCase
+    @Dependency private var getContentUseCase: GetContentUseCase
+    @Dependency private var searchContentUseCase: SearchContentUseCase
+    @Dependency private var saveContentUseCase: SaveContentUseCase
 
     @Published private(set) var contents: [Content] = []
     @Published private(set) var searchResult: [Content] = []
-    
-    init(getContentUseCase: GetContentUseCase, searchContentUseCase: SearchContentUseCase, saveContentUseCase: SaveContentUseCase) {
-        self.getContentUseCase = getContentUseCase
-        self.searchContentUseCase = searchContentUseCase
-        self.saveContentUseCase = saveContentUseCase
-    }
     
     func action(_ actions: SearchViewModelActions) {
         switch actions {

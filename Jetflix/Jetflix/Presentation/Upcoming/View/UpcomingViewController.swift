@@ -34,8 +34,7 @@ class UpcomingViewController: UIViewController, ContentListCollectionViewProtoco
     //MARK: - Properties
     private lazy var dataSource: DataSource = setupDataSource()
     private var snapshot: SnapShot = SnapShot()
-    private var viewModel = UpcommingViewModel(getContentUseCase: .init(repository: ContentRepository()),
-                                               saveContentUseCase: .init(repository: ContentRepository()))
+    @Dependency private var viewModel: UpcommingViewModel
     private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

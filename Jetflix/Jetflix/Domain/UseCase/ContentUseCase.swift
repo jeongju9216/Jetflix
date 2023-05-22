@@ -7,31 +7,29 @@
 
 import Foundation
 
-struct GetContentUseCase: GetContentUseCaseProtocol {
+class ContentUseCase: ContentUseCaseProtocol {
+    @Dependency var repository: ContentRepositoryProtocol
+}
+
+final class GetContentUseCase: ContentUseCase, GetContentUseCaseProtocol {
     typealias RequestType = ContentType
     typealias ResponseType = [Content]
-    
-    var repository: ContentRepositoryProtocol
     
     func excute(requestValue: RequestType) async throws -> ResponseType {
         return try await repository.getContents(type: requestValue)
     }
 }
 
-struct FetchDownloadContentUseCase: FetchDownloadContentUseCaseProtocol {
+final class FetchDownloadContentUseCase: ContentUseCase, FetchDownloadContentUseCaseProtocol {
     typealias ResponseType = [Content]
-    
-    var repository: ContentRepositoryProtocol
     
     func excute() throws -> ResponseType {
         return try repository.fetchDownloadsContents()
     }
 }
 
-struct SaveContentUseCase: SaveContentUseCaseProtocol {
+final class SaveContentUseCase: ContentUseCase, SaveContentUseCaseProtocol {
     typealias RequestType = Content
-    
-    var repository: ContentRepositoryProtocol
     
     func excute(requestValue: RequestType) throws {
         try repository.saveWith(content: requestValue)
@@ -39,22 +37,17 @@ struct SaveContentUseCase: SaveContentUseCaseProtocol {
 
 }
 
-struct DeleteContentUseCase: DeleteContentUseCaseProtocol {
+final class DeleteContentUseCase: ContentUseCase, DeleteContentUseCaseProtocol {
     typealias RequestType = Content
-    
-    var repository: ContentRepositoryProtocol
     
     func excute(requestValue: RequestType) throws {
         try repository.delete(content: requestValue)
     }
 }
 
-struct SearchContentUseCase: SearchContentUseCaseProtocol {
+final class SearchContentUseCase: ContentUseCase, SearchContentUseCaseProtocol {
     typealias RequestType = String
-    
     typealias ResponseType = [Content]
-    
-    var repository: ContentRepositoryProtocol
     
     func excute(requestValue: RequestType) async throws -> ResponseType {
         return try await repository.search(with: requestValue)

@@ -14,14 +14,10 @@ enum UpcommingViewModelActions {
 }
 
 final class UpcommingViewModel {
-    private var getContentUseCase: GetContentUseCase
-    private var saveContentUseCase: SaveContentUseCase
-    @Published private(set) var contents: [Content] = []
+    @Dependency private var getContentUseCase: GetContentUseCase
+    @Dependency private var saveContentUseCase: SaveContentUseCase
     
-    init(getContentUseCase: GetContentUseCase, saveContentUseCase: SaveContentUseCase) {
-        self.getContentUseCase = getContentUseCase
-        self.saveContentUseCase = saveContentUseCase
-    }
+    @Published private(set) var contents: [Content] = []
     
     func action(_ actions: UpcommingViewModelActions) {
         switch actions {

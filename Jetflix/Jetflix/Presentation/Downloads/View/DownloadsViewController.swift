@@ -34,8 +34,7 @@ class DownloadsViewController: UIViewController, ContentListCollectionViewProtoc
     //MARK: - Properties
     private lazy var dataSource: DataSource = setupDataSource()
     private var snapshot: SnapShot = SnapShot()
-    private var viewModel = DownloadViewModel(fetchDownloadContentUseCase: .init(repository: ContentRepository()),
-                                              deleteContentUseCase: .init(repository: ContentRepository()))
+    @Dependency private var viewModel: DownloadViewModel
     private var cancellables: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

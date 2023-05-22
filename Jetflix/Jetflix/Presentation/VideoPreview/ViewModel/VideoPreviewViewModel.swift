@@ -13,12 +13,9 @@ enum VideoPreviewViewModelActions {
 }
 
 final class VideoPreviewViewModel {
-    private var searchYoutubeUseCase: SearchYoutubeUseCase
-    @Published private(set) var trailerVideoElement: VideoElement?
+    @Dependency private var searchYoutubeUseCase: SearchYoutubeUseCase
     
-    init(searchYoutubeUseCase: SearchYoutubeUseCase) {
-        self.searchYoutubeUseCase = searchYoutubeUseCase
-    }
+    @Published private(set) var trailerVideoElement: VideoElement?
     
     func action(_ actions: VideoPreviewViewModelActions) {
         switch actions {
