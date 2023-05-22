@@ -32,15 +32,10 @@ enum HomeViewModelActionsOutput {
 }
 
 final class HomeViewModel {
-    private var getContentUseCase: GetContentUseCase
-    private var saveContentUseCase: SaveContentUseCase
+    @Dependency private var getContentUseCase: GetContentUseCase
+    @Dependency private var saveContentUseCase: SaveContentUseCase
     
     @Published private(set) var randomTrendingContent: Content?
-    
-    init(getContentUseCase: GetContentUseCase, saveContentUseCase: SaveContentUseCase) {
-        self.getContentUseCase = getContentUseCase
-        self.saveContentUseCase = saveContentUseCase
-    }
     
     //MARK: - Actions
     @discardableResult

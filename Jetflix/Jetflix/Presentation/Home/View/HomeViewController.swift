@@ -44,8 +44,7 @@ class HomeViewController: UIViewController {
     //MARK: - Properties
     private lazy var dataSource: DataSource = setupDataSource()
     private var snapshot: SnapShot = SnapShot()
-    private let viewModel = HomeViewModel(getContentUseCase: .init(repository: ContentRepository()),
-                                          saveContentUseCase: .init(repository: ContentRepository()))
+    @Dependency private var viewModel: HomeViewModel
     private var cancellable: Set<AnyCancellable> = []
     
     //MARK: - Life Cycles

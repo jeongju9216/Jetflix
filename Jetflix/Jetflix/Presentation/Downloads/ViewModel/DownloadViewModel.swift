@@ -14,15 +14,10 @@ enum DownloadViewModelActions {
 }
 
 final class DownloadViewModel {
-    private var fetchDownloadContentUseCase: FetchDownloadContentUseCase
-    private var deleteContentUseCase: DeleteContentUseCase
+    @Dependency private var fetchDownloadContentUseCase: FetchDownloadContentUseCase
+    @Dependency private var deleteContentUseCase: DeleteContentUseCase
     
     @Published private(set) var contents: [Content] = []
-    
-    init(fetchDownloadContentUseCase: FetchDownloadContentUseCase, deleteContentUseCase: DeleteContentUseCase) {
-        self.fetchDownloadContentUseCase = fetchDownloadContentUseCase
-        self.deleteContentUseCase = deleteContentUseCase
-    }
     
     func action(_ actions: DownloadViewModelActions) {
         switch actions {

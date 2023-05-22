@@ -11,7 +11,7 @@ struct SearchYoutubeUseCase: SearchYoutubeUseCaseProtocol {
     typealias RequestType = String
     typealias ResponseType = VideoElement
     
-    var repository: YoutubeRepositoryProtocol
+    @Dependency var repository: YoutubeRepositoryProtocol
     
     func excute(requestValue: RequestType) async throws -> ResponseType {
         return try await repository.getMovieTrailer(title: requestValue)
