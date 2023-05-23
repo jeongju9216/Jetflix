@@ -12,10 +12,7 @@ protocol ContentUseCaseProtocol {
 }
 
 protocol GetContentUseCaseProtocol: ContentUseCaseProtocol {
-    associatedtype RequestType
-    associatedtype ResponseType
-    
-    func excute(requestValue: RequestType) async throws -> ResponseType
+    func excute(type: ContentType, page: Int) async throws -> [Content]
 }
 
 protocol FetchDownloadContentUseCaseProtocol: ContentUseCaseProtocol {

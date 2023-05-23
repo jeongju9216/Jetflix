@@ -44,8 +44,8 @@ final class APICaller {
         }
     }
     
-    func getUpcomingMovie() async throws -> [Content] {
-        let urlString = "\(Constants.baseURL)/3/movie/upcoming?api_key=\(Constants.API_KEY)"
+    func getUpcomingMovie(page: Int) async throws -> [Content] {
+        let urlString = "\(Constants.baseURL)/3/movie/upcoming?api_key=\(Constants.API_KEY)&page=\(page)"
         guard let url = URL(string: urlString) else {
             throw APIError.urlError
         }

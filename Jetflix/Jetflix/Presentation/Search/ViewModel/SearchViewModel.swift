@@ -38,7 +38,7 @@ extension SearchViewModel {
     private func fetchContents() {
         Task {
             do {
-                contents = try await getContentUseCase.excute(requestValue: .discover)
+                contents = try await getContentUseCase.excute(type: .discover)
             } catch {
                 contents = []
             }

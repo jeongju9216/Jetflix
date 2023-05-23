@@ -9,7 +9,7 @@ import Foundation
 
 protocol ContentRepositoryProtocol {
     //TMDB API get
-    func getContents(type: ContentType) async throws -> [Content]
+    func getContents(type: ContentType, page: Int) async throws -> [Content]
     
     //Search
     func search(with query: String) async throws -> [Content]
