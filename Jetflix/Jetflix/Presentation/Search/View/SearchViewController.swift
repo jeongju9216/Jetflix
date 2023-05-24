@@ -42,10 +42,10 @@ class SearchViewController: UIViewController, ContentListCollectionViewProtocol 
     
     //MARK: - Properties
     private lazy var dataSource: DataSource = setupDataSource()
-    private var snapshot: SnapShot = SnapShot()
     @Dependency private var viewModel: SearchViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var textInputTimerCancellable: Cancellable?
+    private var isFetchingContents = true
     
     //MARK: - Life Cycles
     override func viewDidLoad() {
@@ -76,8 +76,11 @@ class SearchViewController: UIViewController, ContentListCollectionViewProtocol 
                 guard let self = self else { return }
                 
                 if !contents.isEmpty {
-                    self.snapshot.appendItems(contents, toSection: .main)
-                    dataSource.apply(self.snapshot, animatingDifferences: false)
+                    isFetchingContents = false
+                    var snapshot = SnapShot()
+                    snapshot.appendSections([Sections.main])
+                    snapshot.appendItems(contents, toSection: .main)
+                    dataSource.apply(snapshot, animatingDifferences: false)
                 }
             }
             .store(in: &cancellables)
@@ -125,7 +128,6 @@ class SearchViewController: UIViewController, ContentListCollectionViewProtocol 
         }
 
         let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
-        snapshot.appendSections([Sections.main])
         
         return dataSource
     }
@@ -182,15 +184,24 @@ extension SearchViewController: UICollectionViewDelegate {
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
             let downloadAction = UIAction(title: "Download", state: .off) { _ in
-                Task {
-                    try? await self?.viewModel.action(.save(content))
-                }
+                self?.viewModel.action(.save(content))
             }
             
             return UIMenu(options: .displayInline, children: [downloadAction])
         }
         
         return config
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pos = scrollView.contentOffset.y
+        
+        if pos > collectionView.contentSize.height - scrollView.frame.size.height {
+            if !isFetchingContents {
+                isFetchingContents = true
+                fetchDiscoverData()
+            }
+        }
     }
 }
 

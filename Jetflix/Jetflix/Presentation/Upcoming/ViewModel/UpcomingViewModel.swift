@@ -35,9 +35,8 @@ extension UpcommingViewModel {
     private func fetchContents() {
         Task {
             do {
-                print("fetchContents: \(page)")
-                let newContents = try await getContentUseCase.excute(type: .upcoming, page: page)
-                contents.append(contentsOf: newContents)
+                print("fetch upcoming contents: \(page)")
+                contents += try await getContentUseCase.excute(type: .upcoming, page: page)
                 page += 1
             } catch {
                 contents = []

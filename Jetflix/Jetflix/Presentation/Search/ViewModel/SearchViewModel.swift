@@ -22,6 +22,8 @@ final class SearchViewModel {
     @Published private(set) var contents: [Content] = []
     @Published private(set) var searchResult: [Content] = []
     
+    private var page = 1
+    
     func action(_ actions: SearchViewModelActions) {
         switch actions {
         case .fetchContents:
@@ -38,7 +40,9 @@ extension SearchViewModel {
     private func fetchContents() {
         Task {
             do {
-                contents = try await getContentUseCase.excute(type: .discover)
+                print("fetch discover contents: \(page)")
+                contents += try await getContentUseCase.excute(type: .discover, page: page)
+                page += 1
             } catch {
                 contents = []
             }

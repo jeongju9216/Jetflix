@@ -146,7 +146,7 @@ extension UpcomingViewController: UICollectionViewDelegate {
             //서버 요청하기
             if !isFetchingContents {
                 isFetchingContents = true
-                viewModel.action(.fetchContents)
+                fetchUpcomingContents()
             }
         }
     }
