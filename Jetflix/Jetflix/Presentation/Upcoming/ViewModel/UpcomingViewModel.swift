@@ -17,6 +17,8 @@ final class UpcommingViewModel {
     @Dependency private var getContentUseCase: GetContentUseCase
     @Dependency private var saveContentUseCase: SaveContentUseCase
     
+    private var page = 1
+    
     @Published private(set) var contents: [Content] = []
     
     func action(_ actions: UpcommingViewModelActions) {
@@ -33,7 +35,9 @@ extension UpcommingViewModel {
     private func fetchContents() {
         Task {
             do {
-                contents = try await getContentUseCase.excute(requestValue: .upcoming)
+                print("fetch upcoming contents: \(page)")
+                contents += try await getContentUseCase.excute(type: .upcoming, page: page)
+                page += 1
             } catch {
                 contents = []
             }

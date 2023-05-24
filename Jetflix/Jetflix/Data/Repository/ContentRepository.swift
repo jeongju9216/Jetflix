@@ -15,7 +15,7 @@ final class ContentRepository: ContentRepositoryProtocol {
 
 //MARK: - Fetch TBMS Data
 extension ContentRepository {
-    func getContents(type: ContentType) async throws -> [Content] {
+    func getContents(type: ContentType, page: Int) async throws -> [Content] {
         switch type {
         case .trending(let mediaType):
             switch mediaType {
@@ -25,7 +25,7 @@ extension ContentRepository {
                 return try await apiCaller.getTrendingContent(type: .tv)
             }
         case .upcoming:
-            return try await apiCaller.getUpcomingMovie()
+            return try await apiCaller.getUpcomingMovie(page: page)
         case .popular:
             return try await apiCaller.getPopularMovie()
         case .topRated:

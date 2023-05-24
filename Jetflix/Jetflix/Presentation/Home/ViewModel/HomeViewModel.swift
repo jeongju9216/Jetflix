@@ -55,12 +55,12 @@ final class HomeViewModel {
 extension HomeViewModel {
     //MARK: - Methods
     private func getContents(type: ContentType) async throws -> [Content] {
-        return try await getContentUseCase.excute(requestValue: type)
+        return try await getContentUseCase.excute(type: type)
     }
     
     private func getRandomTrendingContent() {
         Task {
-            randomTrendingContent = try? await getContentUseCase.excute(requestValue: .trending(.movie)).randomElement()
+            randomTrendingContent = try? await getContentUseCase.excute(type: .trending(.movie)).randomElement()
         }
     }
     

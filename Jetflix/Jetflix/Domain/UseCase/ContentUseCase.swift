@@ -12,11 +12,8 @@ class ContentUseCase: ContentUseCaseProtocol {
 }
 
 final class GetContentUseCase: ContentUseCase, GetContentUseCaseProtocol {
-    typealias RequestType = ContentType
-    typealias ResponseType = [Content]
-    
-    func excute(requestValue: RequestType) async throws -> ResponseType {
-        return try await repository.getContents(type: requestValue)
+    func excute(type: ContentType, page: Int = 1) async throws -> [Content] {
+        return try await repository.getContents(type: type, page: page)
     }
 }
 
